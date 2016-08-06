@@ -11,7 +11,7 @@ var request_items = {
                     url: site_url + "purchase_request/getRequestItems/" + pr_id,
                     toolbar: [
                         {
-                            text: 'Add Item',
+                            text: 'Add Items',
                             iconCls: 'icon-add',
                             handler: function(){
                                 if($("#pr_department").combobox('getValue') && $("#quarter").combobox('getValue')){
@@ -23,22 +23,6 @@ var request_items = {
 
                             }
                         },
-                        '-',
-                        {
-                            text: 'Edit Item',
-                            iconCls: 'icon-edit',
-                            handler: function(){
-                                //request_items.update();
-                            }
-                        },
-                        '-',
-                        {
-                            text: 'Delete Item',
-                            iconCls: 'icon-remove',
-                            handler: function(){
-
-                            }
-                        }
                     ],
                     pagination:"true",
                     pageSize:10,

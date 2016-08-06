@@ -27,11 +27,11 @@
 <!--<div region="north" border="false" style="height:60px;background:#038525;padding:10px"></div>-->
 <!--<div region="west" split="true" titl="West" collapsed="true" style="width:150px;padding:10px;"></div>
 <div region="east" split="true" title="East" collapsed="true"style="width:100px;padding:10px;">east region</div>-->
-<div region="south" split="false" style="height:30px;line-height:27px;">
+<div region="south" split="false" style="height:30px;line-height:20px;">
     <div class="easyui-layout" fit="true">
-        <div region="west" split="true" width="20%" style="padding:0 5px;"><?php echo $this->session->userdata('u_firstname') . " " . $this->session->userdata('u_lastname'); ?></div>
-        <div region="center" split="true" style="padding:0 5px;">asdf</div>
-        <div region="east" split="true" width="20%" style="padding:0 5px;">asfds</div>
+        <div region="west" split="false" width="20%" style="padding:0 5px;"><?php echo $this->session->userdata('u_firstname') . " " . $this->session->userdata('u_lastname'); ?></div>
+        <div region="center" split="false" style="padding:0 5px;">asdf</div>
+        <div region="east" split="false" width="20%" style="padding:0 5px;">asfds</div>
     </div>
 </div>
 
@@ -66,41 +66,6 @@
         </div>
 
 
-        <div region="east" title="East" split="true" collapsed="true" style="width:200px">
-            <ul class="easyui-tree">
-                <li>
-                    <span>My Documents</span>
-                    <ul>
-                        <li data-options="state:'closed'">
-                            <span>Photos</span>
-                            <ul>
-                                <li>
-                                    <span>Friend</span>
-                                </li>
-                                <li>
-                                    <span>Wife</span>
-                                </li>
-                                <li>
-                                    <span>Company</span>
-                                </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <span>Program Files</span>
-                            <ul>
-                                <li>Intel</li>
-                                <li>Java</li>
-                                <li>Microsoft Office</li>
-                                <li>Games</li>
-                            </ul>
-                        </li>
-                        <li>index.html</li>
-                        <li>about.html</li>
-                        <li>welcome.html</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
 
         <div region="center">
             <div id="main-content" class="easyui-panel" title="" fit="true" border="false" style="" ></div>
