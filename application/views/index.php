@@ -24,9 +24,6 @@
 </head>
 
 <body class="easyui-layout">
-<!--<div region="north" border="false" style="height:60px;background:#038525;padding:10px"></div>-->
-<!--<div region="west" split="true" titl="West" collapsed="true" style="width:150px;padding:10px;"></div>
-<div region="east" split="true" title="East" collapsed="true"style="width:100px;padding:10px;">east region</div>-->
 <div region="south" split="false" style="height:30px;line-height:20px;">
     <div class="easyui-layout" fit="true">
         <div region="west" split="false" width="20%" style="padding:0 5px;"><?php echo $this->session->userdata('u_firstname') . " " . $this->session->userdata('u_lastname'); ?></div>
@@ -47,9 +44,8 @@
             <div id="mm" style="padding:2px 5px;">
                 <a href="welcome" class="easyui-linkbutton" data-options="plain:true">Home</a>
                 <a href="" class="easyui-menubutton" data-options="plain:true,menu:'#mm1'">Transactions</a>
-                <a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#mm2'">Inventory</a>
-                <a href="#" class="easyui-linkbutton" data-options="plain:true,toggle:true">Users</a>
-                <a href="#" class="easyui-linkbutton" data-options="plain:true">Setup</a>
+                <!--<a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#mm2'">Inventory</a>-->
+                <a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#setup'">Setup</a>
             </div>
             <div id="mm1" style="width:250px;">
                 <div onclick="javascript:routes.procurement_plan()" >Procurement Plans</div>
@@ -60,6 +56,17 @@
                 <div>Help</div>
                 <div>Update</div>
                 <div>About</div>
+            </div>
+            <div id="setup" style="width:150px;">
+                <div onclick="javascript:routes.underconstruction()">Employees</div>
+                <div onclick="javascript:routes.underconstruction()">Suppliers</div>
+                <div onclick="javascript:routes.underconstruction()">Positions</div>
+                <div onclick="javascript:routes.underconstruction()">Departments</div>
+                <div class="menu-sep"></div>
+                <div onclick="javascript:routes.underconstruction()">Categories</div>
+                <div onclick="javascript:routes.underconstruction()">Source Funds</div>
+                <div class="menu-sep"></div>
+                <div onclick="javascript:routes.underconstruction()">Units</div>
             </div>
 
 
