@@ -58,7 +58,7 @@
                 <div>About</div>
             </div>
             <div id="setup" style="width:150px;">
-                <div onclick="javascript:routes.underconstruction()">Employees</div>
+                <div onclick="javascript:routes.employees()">Employees</div>
                 <div onclick="javascript:routes.underconstruction()">Suppliers</div>
                 <div onclick="javascript:routes.underconstruction()">Positions</div>
                 <div onclick="javascript:routes.underconstruction()">Departments</div>

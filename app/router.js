@@ -10,6 +10,10 @@ var routes = {
 
     underconstruction: function(){
         $.messager.alert('Under Construction', 'This module is under construction', 'info');
+    },
+
+    employees: function() {
+        $('#main-content').panel('refresh', site_url + 'employees');
     }
 
 }
