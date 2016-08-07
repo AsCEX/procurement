@@ -1,4 +1,4 @@
-<form id="fm" method="post" novalidate>
+<form id="fm-funds" method="post" novalidate>
 
     <input type="hidden" name="fund_id" value="<?php echo ($fund_id) ? $fund_id : 0; ?>" />
 

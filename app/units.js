@@ -1,39 +1,34 @@
 
-var funds = {
+var units = {
 
     init: function() {
         this.datagrid();
         this.dialog();
     },
 
-    initForms: function() {
-
-    },
-
     datagrid: function() {
-
         using('plugins/jquery.client.paging.js', function(){
-            $('#dg-funds').datagrid({
-                url: site_url + "funds/getSourceFunds",
+            $('#dg-units').datagrid({
+                url: site_url + 'units/getUnitsGrid',
                 toolbar: [
                     {
-                        text: 'Add Fund',
+                        text: 'Add Unit',
                         iconCls: 'icon-add',
                         handler: function() {
-                            funds.create();
+                            units.create();
                         }
                     },
                     '-',
                     {
-                        text: 'Edit Fund',
+                        text: 'Edit Unit',
                         iconCls: 'icon-edit',
                         handler: function() {
-                            funds.update();
+                            units.update();
                         }
                     },
                     '-',
                     {
-                        text: 'Delete Fund',
+                        text: 'Delete Unit',
                         iconCls: 'icon-remove',
                         handler: function() {
 
@@ -47,60 +42,58 @@ var funds = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'value',title:'Fund Name',width:'10%'},
+                        {field:'unit_name',title:'Name',width:'10%'},
                     ]
                 ]
             }).datagrid('clientPaging');
         })
     },
 
-    dialog: function(){
-        var funds = this;
-        $("#dlg-funds").dialog({
+    dialog: function () {
+        var categories = this;
+        $("#dlg-units").dialog({
             resizable: true,
             modal: true,
             closed: true,
             buttons:[{
                 text:'Save',
                 handler:function(){
-                    funds.save();
+                    categories.save();
                 }
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg-funds").dialog('close');
+                    $("#dlg-units").dialog('close');
                 }
             }]
         });
     },
 
     create: function(){
-        $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog').dialog('center').dialog('setTitle','New Fund');
-        $('#fm-funds').form('clear');
+        $('#dlg-units').dialog('open').dialog('refresh', site_url + 'units/dialog').dialog('center').dialog('setTitle','New');
+        $('#fm-units').form('clear');
     },
 
     save: function() {
-        $('#fm-funds').form('submit',{
-            url: site_url + 'funds/saveSourceFund',
+        $('#fm-units').form('submit',{
+            url: site_url + 'units/saveUnit',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-funds').dialog('close');        // close the dialog
-                    $('#dg-funds').datagrid('reload');    // reload the user data
+                    $('#dlg-units').dialog('close');
+                    $('#dg-units').datagrid('reload');
                 });
             }
         });
     },
 
-    update: function(){
-
-        var row = $('#dg-funds').datagrid('getSelected');
+    update: function() {
+        var row = $('#dg-units').datagrid('getSelected');
         if (row){
-            $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog/' + row.name).dialog('center').dialog('setTitle','Edit Fund');
-            $('#fm-funds').form('load',row);
-            // url = 'update_user.php?id='+row.id;
+            $('#dlg-units').dialog('open').dialog('refresh', site_url + 'units/dialog/' + row.unit_id).dialog('center').dialog('setTitle','Edit');
+            $('#fm-units').form('load',row);
         }
-    },
+    }
 }

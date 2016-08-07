@@ -1,5 +1,5 @@
 
-var funds = {
+var offices = {
 
     init: function() {
         this.datagrid();
@@ -11,29 +11,28 @@ var funds = {
     },
 
     datagrid: function() {
-
         using('plugins/jquery.client.paging.js', function(){
-            $('#dg-funds').datagrid({
-                url: site_url + "funds/getSourceFunds",
+            $('#dg-offices').datagrid({
+                url: site_url + 'offices/getOffices',
                 toolbar: [
                     {
-                        text: 'Add Fund',
+                        text: 'Add Department',
                         iconCls: 'icon-add',
                         handler: function() {
-                            funds.create();
+                            offices.create();
                         }
                     },
                     '-',
                     {
-                        text: 'Edit Fund',
+                        text: 'Edit Department',
                         iconCls: 'icon-edit',
                         handler: function() {
-                            funds.update();
+                            offices.update();
                         }
                     },
                     '-',
                     {
-                        text: 'Delete Fund',
+                        text: 'Delete Department',
                         iconCls: 'icon-remove',
                         handler: function() {
 
@@ -47,60 +46,61 @@ var funds = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'value',title:'Fund Name',width:'10%'},
+                        {field:'ofc_initial',title:'Initial',width:'10%'},
+                        {field:'ofc_code',title:'Code',width:'10%'},
+                        {field:'ofc_name',title:'Name',width:'40%'},
                     ]
                 ]
             }).datagrid('clientPaging');
         })
     },
 
-    dialog: function(){
-        var funds = this;
-        $("#dlg-funds").dialog({
+    dialog: function () {
+        var offices = this;
+        $("#dlg-offices").dialog({
             resizable: true,
             modal: true,
             closed: true,
             buttons:[{
                 text:'Save',
                 handler:function(){
-                    funds.save();
+                    offices.save();
                 }
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg-funds").dialog('close');
+                    $("#dlg-offices").dialog('close');
                 }
             }]
         });
     },
 
     create: function(){
-        $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog').dialog('center').dialog('setTitle','New Fund');
-        $('#fm-funds').form('clear');
+        $('#dlg-offices').dialog('open').dialog('refresh', site_url + 'offices/dialog').dialog('center').dialog('setTitle','New Department');
+        $('#fm-offices').form('clear');
     },
 
     save: function() {
-        $('#fm-funds').form('submit',{
-            url: site_url + 'funds/saveSourceFund',
+        $('#fm-offices').form('submit',{
+            url: site_url + 'offices/saveOffice',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-funds').dialog('close');        // close the dialog
-                    $('#dg-funds').datagrid('reload');    // reload the user data
+                    $('#dlg-offices').dialog('close');
+                    $('#dg-offices').datagrid('reload');
                 });
             }
         });
     },
 
-    update: function(){
-
-        var row = $('#dg-funds').datagrid('getSelected');
+    update: function() {
+        var row = $('#dg-offices').datagrid('getSelected');
+        console.log(row);
         if (row){
-            $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog/' + row.name).dialog('center').dialog('setTitle','Edit Fund');
-            $('#fm-funds').form('load',row);
-            // url = 'update_user.php?id='+row.id;
+            $('#dlg-offices').dialog('open').dialog('refresh', site_url + 'offices/dialog/' + row.ofc_id).dialog('center').dialog('setTitle','Edit Department');
+            $('#fm-offices').form('load',row);
         }
-    },
+    }
 }

@@ -1,5 +1,5 @@
 
-var funds = {
+var positions = {
 
     init: function() {
         this.datagrid();
@@ -13,27 +13,27 @@ var funds = {
     datagrid: function() {
 
         using('plugins/jquery.client.paging.js', function(){
-            $('#dg-funds').datagrid({
-                url: site_url + "funds/getSourceFunds",
+            $('#dg-positions').datagrid({
+                url: site_url + 'positions/getPositions',
                 toolbar: [
                     {
-                        text: 'Add Fund',
+                        text: 'Add Position',
                         iconCls: 'icon-add',
                         handler: function() {
-                            funds.create();
+                            positions.create();
                         }
                     },
                     '-',
                     {
-                        text: 'Edit Fund',
+                        text: 'Edit Position',
                         iconCls: 'icon-edit',
                         handler: function() {
-                            funds.update();
+                            positions.update();
                         }
                     },
                     '-',
                     {
-                        text: 'Delete Fund',
+                        text: 'Delete Position',
                         iconCls: 'icon-remove',
                         handler: function() {
 
@@ -47,7 +47,7 @@ var funds = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'value',title:'Fund Name',width:'10%'},
+                        {field:'pos_name',title:'Position Name',width:'10%'},
                     ]
                 ]
             }).datagrid('clientPaging');
@@ -55,40 +55,40 @@ var funds = {
     },
 
     dialog: function(){
-        var funds = this;
-        $("#dlg-funds").dialog({
+        var positions = this;
+        $("#dlg-positions").dialog({
             resizable: true,
             modal: true,
             closed: true,
             buttons:[{
                 text:'Save',
                 handler:function(){
-                    funds.save();
+                    positions.save();
                 }
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg-funds").dialog('close');
+                    $("#dlg-positions").dialog('close');
                 }
             }]
         });
     },
 
     create: function(){
-        $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog').dialog('center').dialog('setTitle','New Fund');
-        $('#fm-funds').form('clear');
+        $('#dlg-positions').dialog('open').dialog('refresh', site_url + 'positions/dialog').dialog('center').dialog('setTitle','New Position');
+        $('#fm-positions').form('clear');
     },
 
     save: function() {
-        $('#fm-funds').form('submit',{
-            url: site_url + 'funds/saveSourceFund',
+        $('#fm-positions').form('submit',{
+            url: site_url + 'positions/savePosition',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-funds').dialog('close');        // close the dialog
-                    $('#dg-funds').datagrid('reload');    // reload the user data
+                    $('#dlg-positions').dialog('close');        // close the dialog
+                    $('#dg-positions').datagrid('reload');    // reload the user data
                 });
             }
         });
@@ -96,11 +96,11 @@ var funds = {
 
     update: function(){
 
-        var row = $('#dg-funds').datagrid('getSelected');
+        var row = $('#dg-positions').datagrid('getSelected');
         if (row){
-            $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog/' + row.name).dialog('center').dialog('setTitle','Edit Fund');
-            $('#fm-funds').form('load',row);
-            // url = 'update_user.php?id='+row.id;
+            $('#dlg-positions').dialog('open').dialog('refresh', site_url + 'positions/dialog/' + row.pos_id).dialog('center').dialog('setTitle','Edit Position');
+            $('#fm-positions').form('load',row);
         }
     },
+
 }

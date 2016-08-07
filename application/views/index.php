@@ -60,13 +60,13 @@
             <div id="setup" style="width:150px;">
                 <div onclick="javascript:routes.employees()">Employees</div>
                 <div onclick="javascript:routes.underconstruction()">Suppliers</div>
-                <div onclick="javascript:routes.underconstruction()">Positions</div>
-                <div onclick="javascript:routes.underconstruction()">Departments</div>
+                <div onclick="javascript:routes.positions()">Positions</div>
+                <div onclick="javascript:routes.offices()">Departments</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.underconstruction()">Categories</div>
+                <div onclick="javascript:routes.categories()">Categories</div>
                 <div onclick="javascript:routes.funds()">Source Funds</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.underconstruction()">Units</div>
+                <div onclick="javascript:routes.units()">Units</div>
             </div>
 
 

@@ -10,6 +10,10 @@ class Units extends MY_Controller {
         $this->load->model('units_model');
     }
 
+    public function index() {
+        $this->load->view('units/default');
+    }
+
 
     public function getUnits($unit_id = null){
 
@@ -41,6 +45,18 @@ class Units extends MY_Controller {
 
     }
 
+    public function getUnitsGrid() {
+
+        $units = $this->units_model->getUnits();
+
+        $resultSet['rows'] = $units;
+        $resultSet['total'] = count($units);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($resultSet) );
+    }
+
     public function addUnit($id=null)
     {
         $data['units'] = $this->units_model->getUnitById($id);
@@ -48,18 +64,29 @@ class Units extends MY_Controller {
     }
 
     public function saveUnit(){
+
         $post = $_POST;
 
         $data = array(
             'unit_name' => $post['unit_name']
         );
 
-        $rs = $this->units_model->save($data, $post['id']);
+        $rs = $this->units_model->save($data, $post['unit_id']);
 
         if($rs){
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(array('action'=>$post['action'], 'status'=>'success', 'lastid' => $rs )) );
         }
+    }
+
+    public function dialog($unit_id = 0){
+
+        $unit = $this->units_model->getUnitById($unit_id);
+
+        $data['unit'] = ($unit) ? $unit : array();
+        $data['unit_id'] = $unit_id;
+
+        $this->load->view('units/dialog/add', $data);
     }
 }

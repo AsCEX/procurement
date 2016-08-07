@@ -1,5 +1,5 @@
 
-var funds = {
+var categories = {
 
     init: function() {
         this.datagrid();
@@ -11,29 +11,28 @@ var funds = {
     },
 
     datagrid: function() {
-
         using('plugins/jquery.client.paging.js', function(){
-            $('#dg-funds').datagrid({
-                url: site_url + "funds/getSourceFunds",
+            $('#dg-categories').datagrid({
+                url: site_url + 'categories/getCategoriesGrid',
                 toolbar: [
                     {
-                        text: 'Add Fund',
+                        text: 'Add Category',
                         iconCls: 'icon-add',
                         handler: function() {
-                            funds.create();
+                            categories.create();
                         }
                     },
                     '-',
                     {
-                        text: 'Edit Fund',
+                        text: 'Edit Category',
                         iconCls: 'icon-edit',
                         handler: function() {
-                            funds.update();
+                            categories.update();
                         }
                     },
                     '-',
                     {
-                        text: 'Delete Fund',
+                        text: 'Delete Category',
                         iconCls: 'icon-remove',
                         handler: function() {
 
@@ -47,60 +46,61 @@ var funds = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'value',title:'Fund Name',width:'10%'},
+                        {field:'cat_code',title:'Code',width:'10%'},
+                        {field:'cat_description',title:'Description',width:'20%'},
                     ]
                 ]
             }).datagrid('clientPaging');
         })
     },
 
-    dialog: function(){
-        var funds = this;
-        $("#dlg-funds").dialog({
+    dialog: function () {
+        var categories = this;
+        $("#dlg-categories").dialog({
             resizable: true,
             modal: true,
             closed: true,
             buttons:[{
                 text:'Save',
                 handler:function(){
-                    funds.save();
+                    categories.save();
                 }
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg-funds").dialog('close');
+                    $("#dlg-categories").dialog('close');
                 }
             }]
         });
     },
 
     create: function(){
-        $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog').dialog('center').dialog('setTitle','New Fund');
-        $('#fm-funds').form('clear');
+        $('#dlg-categories').dialog('open').dialog('refresh', site_url + 'categories/dialog').dialog('center').dialog('setTitle','New');
+        $('#fm-categories').form('clear');
     },
 
     save: function() {
-        $('#fm-funds').form('submit',{
-            url: site_url + 'funds/saveSourceFund',
+        $('#fm-categories').form('submit',{
+            url: site_url + 'categories/saveCategory',
             onSubmit: function(){
                 return $(this).form('validate');
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-funds').dialog('close');        // close the dialog
-                    $('#dg-funds').datagrid('reload');    // reload the user data
+                    $('#dlg-categories').dialog('close');
+                    $('#dg-categories').datagrid('reload');
                 });
             }
         });
     },
 
-    update: function(){
-
-        var row = $('#dg-funds').datagrid('getSelected');
+    update: function() {
+        var row = $('#dg-categories').datagrid('getSelected');
+        console.log(row);
         if (row){
-            $('#dlg-funds').dialog('open').dialog('refresh', site_url + 'funds/dialog/' + row.name).dialog('center').dialog('setTitle','Edit Fund');
-            $('#fm-funds').form('load',row);
-            // url = 'update_user.php?id='+row.id;
+            $('#dlg-categories').dialog('open').dialog('refresh', site_url + 'categories/dialog/' + row.cat_id).dialog('center').dialog('setTitle','Edit');
+            $('#fm-categories').form('load',row);
         }
-    },
+    }
+
 }

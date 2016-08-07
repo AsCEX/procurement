@@ -54,14 +54,20 @@ class Offices_model extends CI_Model
 
 
     public function save($data, $id = null){
+
         $data = array(
-            'ofc_code'   => $data['code'],
-            'ofc_initial'   => $data['initial'],
-            'ofc_name'          => $data['name'],
+            'ofc_initial'       => $data['ofc_initial'],
+            'ofc_code'          => $data['ofc_code'],
+            'ofc_name'          => $data['ofc_name'],
+            'ofc_created_by'    => $this->session->u_id,
+            'ofc_created_date'  => date("Y-m-d"),
+            'ofc_status'        => 1
         );
 
-
         if($id){
+
+            $data['ofc_modified_by']    = $this->session->u_id;
+            $data['ofc_modified_date']  = date("Y-m-d");
 
             $this->db->where('ofc_id', $id);
             $this->db->update($this->offices_tbl, $data);

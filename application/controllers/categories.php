@@ -10,6 +10,10 @@ class Categories extends MY_Controller {
         $this->load->model('categories_model', 'cat_model');
     }
 
+    public function index() {
+        $this->load->view('categories/default');
+    }
+
     public function getCategories($cat_id = null){
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -17,7 +21,6 @@ class Categories extends MY_Controller {
         $categories = $this->cat_model->getLimitCategories($page);
 
         $cat_data = array();
-
 
         foreach($categories as $category){
             $temp = array(
@@ -38,6 +41,18 @@ class Categories extends MY_Controller {
             ->set_output(json_encode($cat_data) );
     }
 
+    public function getCategoriesGrid() {
+
+        $categories = $this->cat_model->getCategories();
+
+        $resultSet['rows'] = $categories;
+        $resultSet['total'] = count($categories);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($resultSet) );
+    }
+
     public function addCategory($id=null)
     {
         $data['categories'] = $this->cat_model->getCategoryById($id);
@@ -45,19 +60,30 @@ class Categories extends MY_Controller {
     }
 
     public function saveCategory(){
+
         $post = $_POST;
 
         $data = array(
-            'code' => $post['code'],
-            'description'   => $post['description']
+            'cat_code'          => $post['cat_code'],
+            'cat_description'   => $post['cat_description']
         );
 
-        $rs = $this->cat_model->save($data, $post['id']);
+        $rs = $this->cat_model->save($data, $post['cat_id']);
 
         if($rs){
             $this->output
                 ->set_content_type('application/json')
                 ->set_output(json_encode(array('action'=>$post['action'], 'status'=>'success', 'lastid' => $rs )) );
         }
+    }
+
+    public function dialog($cat_id = 0){
+
+        $category = $this->cat_model->getCategoryById($cat_id);
+
+        $data['category'] = ($category) ? $category : array();
+        $data['cat_id'] = $cat_id;
+
+        $this->load->view('categories/dialog/add', $data);
     }
 }

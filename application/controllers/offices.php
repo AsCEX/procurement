@@ -9,6 +9,21 @@ class Offices extends MY_Controller {
         $this->load->model('offices_model');
     }
 
+    public function index() {
+        $this->load->view('offices/default');
+    }
+
+    public function getOffices() {
+        $offices = $this->offices_model->getOffices();
+
+        $resultSet['rows'] = $offices;
+        $resultSet['total'] = count($offices);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($resultSet) );
+    }
+
     public function getComboboxOffices($ofc_id = null){
 
         $page = isset($_GET['page']) ? $_GET['page'] : 1;
@@ -34,6 +49,28 @@ class Offices extends MY_Controller {
         $this->output
             ->set_content_type('application/json')
             ->set_output(json_encode($office_data) );
+    }
+
+    public function dialog($ofc_id = 0){
+
+        $office = $this->offices_model->getOfficeById($ofc_id);
+
+        $data['office'] = ($office) ? $office : array();
+        $data['ofc_id'] = $ofc_id;
+
+        $this->load->view('offices/dialog/add', $data);
+    }
+
+    public function saveOffice() {
+
+        $post = $_POST;
+        $office = $this->offices_model->save($post, isset($post['ofc_id']) ? $post['ofc_id'] : null);
+
+        if($office){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode(array('status'=>'success', 'lastid' => $office->ofc_id )) );
+        }
     }
 
 }

@@ -49,17 +49,11 @@ class Categories_model extends CI_Model
 
         $rs = $this->db->get($this->categories_tbl);
 
-
         return $rs->result();
     }
 
 
     public function save($data, $id = null){
-        $data = array(
-            'cat_code'   => $data['code'],
-            'cat_description'   => $data['description']
-        );
-
 
         if($id){
 
