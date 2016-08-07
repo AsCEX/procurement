@@ -64,7 +64,7 @@
                 <div onclick="javascript:routes.underconstruction()">Departments</div>
                 <div class="menu-sep"></div>
                 <div onclick="javascript:routes.underconstruction()">Categories</div>
-                <div onclick="javascript:routes.underconstruction()">Source Funds</div>
+                <div onclick="javascript:routes.funds()">Source Funds</div>
                 <div class="menu-sep"></div>
                 <div onclick="javascript:routes.underconstruction()">Units</div>
             </div>

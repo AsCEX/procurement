@@ -18,10 +18,45 @@ class Source_funds_model extends CI_Model
     public function getFunds($id = 0){
 
         $this->db->select("*");
-        //$this->db->where('fund_id', $id);
+
+        if($id){
+            $this->db->where("fund_id", $id);
+        }
+
         $rs = $this->db->get($this->source_funds_tbl);
 
         return $rs->result();
+    }
+
+    public function getFundById( $id ) {
+
+        $fields = "fund_id, fund_name";
+
+        $this->db->select($fields);
+        $this->db->where("fund_id", $id);
+
+        $rs = $this->db->get($this->source_funds_tbl);
+
+        return $rs->row();
+    }
+
+    public function save($data, $id = null) {
+
+        $insert = array(
+            'fund_name' => $data['fund_name']
+        );
+
+        if($id){
+            $this->db->where('fund_id', $id);
+            $this->db->update($this->source_funds_tbl, $insert);
+
+            $funds = $id;
+        }else{
+            $this->db->insert($this->source_funds_tbl, $insert);
+            $funds = $this->db->insert_id();
+        }
+
+        return $funds;
     }
 
 }

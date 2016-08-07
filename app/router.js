@@ -12,8 +12,16 @@ var routes = {
         $.messager.alert('Under Construction', 'This module is under construction', 'info');
     },
 
+    // Employees
     employees: function() {
         $('#main-content').panel('refresh', site_url + 'employees');
+    },
+
+
+
+    // Source Funds
+    funds: function() {
+        $('#main-content').panel('refresh', site_url + 'funds');
     }
 
 }
