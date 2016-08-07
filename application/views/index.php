@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Procurement and Inventory Management System</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Procurement and Inventory Management System</title>
 
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/bootstrap.scaffolding.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/font-awesome.min.css') ?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/black/easyui.css') ?>">
-	<link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/icon.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/black/easyui.css') ?>">
+    <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/icon.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/main.css') ?>">
     <style>
         body{
@@ -42,8 +42,9 @@
             </div>
 
             <div id="mm" style="padding:2px 5px;">
-                <a href="welcome" class="easyui-linkbutton" data-options="plain:true">Home</a>
+                <a href="" class="easyui-linkbutton" data-options="plain:true">Home</a>
                 <a href="" class="easyui-menubutton" data-options="plain:true,menu:'#mm1'">Transactions</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true">Bids &amp; Awards</a>
                 <!--<a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#mm2'">Inventory</a>-->
                 <a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#setup'">Setup</a>
             </div>
@@ -60,13 +61,13 @@
             <div id="setup" style="width:150px;">
                 <div onclick="javascript:routes.employees()">Employees</div>
                 <div onclick="javascript:routes.underconstruction()">Suppliers</div>
-                <div onclick="javascript:routes.positions()">Positions</div>
-                <div onclick="javascript:routes.offices()">Departments</div>
+                <div onclick="javascript:routes.underconstruction()">Positions</div>
+                <div onclick="javascript:routes.underconstruction()">Departments</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.categories()">Categories</div>
-                <div onclick="javascript:routes.funds()">Source Funds</div>
+                <div onclick="javascript:routes.underconstruction()">Categories</div>
+                <div onclick="javascript:routes.underconstruction()">Source Funds</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.units()">Units</div>
+                <div onclick="javascript:routes.underconstruction()">Units</div>
             </div>
 
 
@@ -90,6 +91,13 @@
 <script type="text/javascript" src="<?php echo site_url('assets/js/easyloader.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/accounting.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/router.js') ?>"></script>
+
+
+<script type="text/javascript" src="<?php echo site_url('app/procurement_plan.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/purchase_request.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/purchase_request_item.js') ?>"></script>
+
+
 
 <script type="text/javascript">
     $(document).ready(function(){

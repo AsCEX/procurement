@@ -28,25 +28,68 @@ var request_items = {
                     pageSize:10,
                     rownumbers:"true",
                     fitColumns:"true",
-                    fit: "true",
+                    nowrap: false,
+                    fit: true,
                     singleSelect:"true",
                     columns:[
                         [
-                            {field:'ppmp_code',title:'Code',width:'5%'},
-                            {field:'ppmp_description',title:'Description',width:'30%'},
-                            {field:'qty',title:'Qty',width:'15%',align:'right'},
-                            {field:'unit_name',title:'Unit',width:'20%'},
-                            {field:'qty_cost',title:'Cost',width:'15%',align:'right'},
-                            {field:'ppmp_id',title:'',width:'10%',align:'center',formatter: function(value,row,index){
-                                return '<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:\'icon-search\'" onclick="request_items.pr_details()">&nbsp;</a>'
-                                +'<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:\'icon-remove\'" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">&nbsp;</a>';
+                            {field:'ppmp_code',title:'Code',width:'4%'},
+                            {field:'cat_description',title:'Category',width:'20%'},
+                            {field:'description',title:'Description',width:'20%'},
+                            {field:'qty',title:'Qty',width:'10%',align:'right',editor:{
+                                type: 'numberbox',options:{
+                                    precision: 2,
+                                    filter: function(e, row){
+                                        if(!isNaN(e.key)){
+                                            return true;
+                                        }else{
+                                            if(e.keyCode == 46){
+                                                return true;
+                                            }
+                                            if(e.keyCode == 13){
+                                                request_items.endEditing();
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }},
+                            {field:'unit_name',title:'Unit',width:'10%'},
+                            {field:'item_cost',title:'Item Cost',width:'10%',align:'right',editor:{
+                                type: 'numberbox',options:{
+                                    precision: 2,
+                                    filter: function(e){
+                                        if(!isNaN(e.key)){
+                                            return true;
+                                        }else{
+                                            if(e.keyCode == 46){
+                                                return true;
+                                            }
+                                            if(e.keyCode == 13){
+                                                request_items.endEditing();
+                                                return true;
+                                            }
+                                            return false;
+                                        }
+                                    }
+                                }
+                            }},
+                            {field:'cost',title:'Cost',width:'10%',align:'right'},
+                            {field:'ppmp_id',title:'',width:'12%',align:'center',formatter: function(value,row,index){
+                                /*return '<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff" onclick="request_items.onClickCell()">details</a> | '
+                                +'<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff;" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">remove</a>';*/
+                                return '<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff;" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">remove</a>';
                             }}
                         ]
                     ],
-                    onDblClickCell: request_items.onClickCell,
+                    onDblClickCell: request_items.onDblClickCell,
                     onEndEdit: request_items.onEndEdit,
+                    onClickCell: request_items.onClickCell,
                     onLoadSuccess:function(){
-                        $(this).datagrid('getPanel').find('a.easyui-linkbutton').linkbutton();
+                        //$(this).datagrid('getPanel').find('a.easyui-linkbutton').linkbutton();
+
+
 
                     }
                 }).datagrid('clientPaging');
@@ -87,12 +130,29 @@ var request_items = {
         },
         onClickCell: function(index, field){
             if (request_items.editIndex != index){
+                request_items.endEditing();
+            }
+        },
+        onDblClickCell: function(index, field){
+            if (request_items.editIndex != index){
                 if (request_items.endEditing()){
                     $('#pr_items').datagrid('selectRow', index)
                         .datagrid('beginEdit', index);
                     var ed = $('#pr_items').datagrid('getEditor', {index:index,field:field});
                     if (ed){
-                        ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                        if($(ed.target).data('textbox'))
+                        {
+                            $(ed.target).textbox('textbox').focus().select().bind('keyup', function(e)
+                            {
+                                var code = e.keyCode || e.which;
+                                if(code == 13) { //Enter keycode
+                                    alert("LSDKFJS");
+                                    request_items.endEditing();
+                                }
+                            })
+                        }else{
+                            $(ed.target).focus();
+                        }
 
 
                     }
@@ -104,12 +164,35 @@ var request_items = {
                 }
             }
         },
-        onEndEdit: function(index, row){
-            /*var ed = $('#ppmp_pr').datagrid('getEditor', {
-                index: index,
-                field: 'ppmp_id'
-            });
-            row.productname = $(ed.target).combobox('getText');*/
+        onEndEdit: function(index, row, changes){
+
+            console.log(index);
+            console.log(row);
+            console.log(changes.cost);
+            console.log(row.limit_budget);
+
+            if(changes.cost*1 > row.limit_budget*1){
+                $.messager.alert("Warning", "You entered " + changes.cost +", should not greater than the maximum budget " + row.limit_budget, 'warning');
+
+                $("#pr_items").datagrid('updateRow',{
+                    index: index,
+                    row: {
+                        cost: row.limit_budget
+                    }
+                });
+            }
+
+             if(changes.qty*1 > row.limit_qty*1){
+                $.messager.alert("Warning", "You entered " + changes.qty +", should not greater than the maximum quantity " + row.limit_qty, 'warning');
+
+                 $("#pr_items").datagrid('updateRow',{
+                     index: index,
+                     row: {
+                         qty: row.limit_qty
+                     }
+                 });
+             }
+
         },
         append: function(){
 
@@ -184,14 +267,16 @@ var request_items = {
                 fitColumns:"true",
                 fit: "true",
                 singleSelect:false,
-                //nowrap: false,
+                nowrap: false,
                 columns:[
                     [
                         {field:'ppmp_code',title:'Code',width:'8%'},
-                        {field:'ppmp_description',title:'Description',width:'40%'},
-                        {field:'qty',title:'Qty',width:'15%',align:'right'},
-                        {field:'unit_name',title:'Unit',width:'20%'},
-                        {field:'qty_cost',title:'Cost',width:'15%',align:'right'},
+                        {field:'cat_description',title:'Category',width:'20%'},
+                        {field:'description',title:'Description',width:'20%'},
+                        {field:'qty',title:'Qty',width:'10%',align:'right'},
+                        {field:'unit_name',title:'Unit',width:'10%'},
+                        {field:'item_cost',title:'Item Cost',width:'15%'},
+                        {field:'cost',title:'Cost',width:'15%',align:'right'},
                     ]
                 ],
             }).datagrid('clientPaging');

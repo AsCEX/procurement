@@ -59,7 +59,7 @@ class Purchased_request_model extends CI_Model
         return $rs->num_rows();
     }
 
-    public function getLimitRequest($curPage = 1, $rowsPerPage = 10){
+    public function getLimitRequest(){
 
         $this->db->select("*,
             CONCAT_WS( '-', DATE_FORMAT(pr_created_date, '%y%m'), LPAD(pr_id, 4, 0) ) as pr_code_id,
@@ -70,7 +70,6 @@ class Purchased_request_model extends CI_Model
         ");
         $this->db->join($this->offices_tbl, "ofc_id = pr_department_id", "left");
         $this->db->join($this->users_tbl, "u_id = pr_requested_by", "left");
-        $this->db->limit( $rowsPerPage, ($curPage-1) * $rowsPerPage);
 
         $rs = $this->db->get($this->pr_tbl);
 
@@ -210,26 +209,44 @@ class Purchased_request_model extends CI_Model
         return $rs->result_array();
     }
 
+
     public function getRequestItemsById($pr_id = 0){
-        $this->db->select("
-            *,
-            pri_qty as qty,
-            pri_cost as qty_cost,
-            CONCAT_WS( '-', DATE_FORMAT(pr_created_date, '%y%m'), LPAD(pr_id, 4, 0) ) as pr_code_id
-        ");
 
-        $this->db->join($this->pr_tbl, "pr_id = pri_pr_id", "left");
-        $this->db->join($this->procurement_plan_table, "pri_ppmp_id = ppmp_id", "left");
-        $this->db->join("{$this->units_tbl}", "unit_id = ppmp_unit", "left");
+        $sql = "SELECT
+                ppmp_id,
+                pri_id,
+                pri_pr_id,
+                ppmp_code,
+                cat_description,
+                pri_description as description,
+                pri_qty as qty,
+                limit_qty,
+                REPLACE(FORMAT(ppmp_budget/max_qty, 2),',','') as item_cost,
+                (ppmp_budget/max_qty) * limit_qty as limit_budget,
+                unit_name,
+                pri_cost as cost,
+                max_qty,
+                ppmp_budget
+                FROM tbl_purchase_request_items
+                LEFT JOIN tbl_procurement_plan_schedules ON pri_id = pps_pri_id
+                LEFT JOIN tbl_procurement_plans ON pri_ppmp_id = ppmp_id
+                LEFT JOIN (
+                        SELECT pps_ppmp_id as max_ppmp_id, sum(pps_value) as max_qty  FROM tbl_procurement_plan_schedules GROUP BY pps_ppmp_id
+                ) as tbl_max ON max_ppmp_id = pri_ppmp_id
+                LEFT JOIN (
+                        SELECT pps_ppmp_id as limit_ppmp_id, sum(pps_value) as limit_qty  FROM tbl_procurement_plan_schedules WHERE pps_pri_id IS NOT NULL GROUP BY pps_ppmp_id, pps_pri_id
+                ) as tbl_limit ON limit_ppmp_id = pri_ppmp_id
+                LEFT JOIN tbl_categories ON cat_id = ppmp_category_id
+                LEFT JOIN tbl_units ON unit_id = ppmp_unit
+                WHERE pri_pr_id = $pr_id
+                GROUP BY pri_id";
 
-        $this->db->from($this->pr_items_tbl);
+        $qry = $this->db->query($sql);
 
-        $this->db->where('pri_pr_id', $pr_id);
-
-        $rs = $this->db->get();
-
-        return $rs->result_array();
+        return $qry->result_array();
     }
+
+
 
 
     public function countItemRows(){
@@ -296,7 +313,11 @@ class Purchased_request_model extends CI_Model
         }
     }
 
-    public function deleteItem($pri_id = null){
+    public function deleteItem($pri_id = null, $ppmp_id = null){
+
+        $this->db->where('pps_pri_id', $pri_id);
+        $this->db->update('tbl_procurement_plan_schedules', array('pps_pri_id' => null));
+
         $this->db->where('pri_id', $pri_id);
         $this->db->delete($this->pr_items_tbl);
     }
@@ -307,27 +328,21 @@ class Purchased_request_model extends CI_Model
         $pr_id = $pr_id ? $pr_id : 0;
 
 
-        $fields = ($pr_id) ? "IF(pri_id,'checked','') as pri_chk," : "";
+        $fields = "";
+        $fields .= ($pr_id) ? "IF(pri_id,'checked','') as pri_chk," : "";
         $fields .= "
                 pri_id,
-                pri_qty,
-                pri_cost,
-                pri_description,
                 ppmp_id,
                 ppmp_code,
-                ppmp_description,
-                ppmp_unit,
-                ppmp_office_id,
-                ppmp_source_fund,
-                ppmp_category_id,
-                ppmp_budget,
-                unit_name,
+                cat_description,
+                ppmp_description as description,
                 COALESCE(sum(pps_value), 0) as qty,
+                unit_name,
                 GROUP_CONCAT( pps_month) as scheds,
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
-                FORMAT((ppmp_budget/tot_budget.tot_qty), 2) as cost_per_qty,
-                FORMAT((ppmp_budget/tot_budget.tot_qty) *  COALESCE(sum(pps_value), 0), 2) as qty_cost,
+                ROUND((ppmp_budget/tot_budget.tot_qty),2) as item_cost,
+                ROUND((ppmp_budget/tot_budget.tot_qty) *  COALESCE(sum(pps_value), 0), 2) as cost,
             ";
 
 
@@ -335,9 +350,10 @@ class Purchased_request_model extends CI_Model
 
 
         $this->db->join($this->units_tbl, "unit_id = ppmp_unit","left");
+        $this->db->join('tbl_categories', "cat_id = ppmp_category_id","left");
         $this->db->join($this->procurement_schedules_table, "pps_ppmp_id = ppmp_id","left");
         $this->db->join("(
-                    SELECT sum(pps_value) as tot_qty, pps_ppmp_id  FROM $this->procurement_schedules_table GROUP BY pps_ppmp_id
+                    SELECT sum(pps_value) as tot_qty, pps_ppmp_id  FROM tbl_procurement_plan_schedules GROUP BY pps_ppmp_id
         ) as tot_budget","tot_budget.pps_ppmp_id = ppmp_id","left");
 
         // if($pr_id)
@@ -353,9 +369,9 @@ class Purchased_request_model extends CI_Model
 
         $office = ($department) ? $department : 0;
         $this->db->where("ppmp_office_id" , $department);
-
-        $this->db->where('pps_pr_id IS NULL', null, false);
-        $this->db->or_where('pps_pr_id', $pr_id);
+/*
+        $this->db->where('pps_pri_id IS NULL', null, false);
+        $this->db->or_where('pps_pri_id', $pr_id);*/
         if($items){
             $this->db->where_not_in('ppmp_id', $items);
         }

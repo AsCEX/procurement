@@ -58,8 +58,9 @@ class Purchase_request extends MY_Controller {
 
 
     public function getRequestItems($pr_id = null){
-
-        $items = $this->pr_model->getRequestItemsById($pr_id);
+        $items = array();
+        if($pr_id)
+            $items = $this->pr_model->getRequestItemsById($pr_id);
 
         $resultSet['total'] = count($items);
         $resultSet['rows'] = $items;
@@ -130,24 +131,39 @@ class Purchase_request extends MY_Controller {
 
 
         $items = json_decode( $this->input->post('pr_item_json') );
-
-
-        if($items){
-            foreach($items as $item){
-                $item_data = array(
-                    'pri_pr_id' => $pr_id,
-                    'pri_ppmp_id'   => $item->ppmp_id,
-                    'pri_qty'   => $item->qty,
-                    'pri_description'   => $item->ppmp_description,
-                    'pri_cost'  => $item->qty_cost
-                );
-
-                $this->pr_model->saveItems($item_data);
-                $this->ppmp_model->assignPRtoPPMP($pr_id, $item->ppmp_id, $quarter);
-            }
+        if(!$items){
+            $items = array();
         }
 
+        $pri_ids = array();
+        foreach($items as $item){
+            $item_data = array(
+                'pri_pr_id' => $pr_id,
+                'pri_ppmp_id'   => $item->ppmp_id,
+                'pri_qty'   => $item->qty,
+                'pri_description'   => $item->description,
+                'pri_cost'  => str_replace(",", "", $item->cost)
+            );
+            if($item->pri_id){
+                $pri_ids[] = $item->pri_id;
+            }
 
+            $pri_id = $this->pr_model->saveItems($item_data, $item->pri_id);
+            $this->ppmp_model->assignPRtoPPMP($pri_id, $item->ppmp_id, $quarter);
+        }
 
+        $r_items = $this->pr_model->getRequestItemsById($pr_id);
+        $init_items = array();
+
+        foreach($r_items as $item) {
+            $init_items[] = $item['pri_id'];
+        }
+
+        $deleted_pri = array_diff($init_items, $pri_ids);
+
+        pre_print($deleted_pri);
+        foreach($deleted_pri as $pri_id){
+                $this->pr_model->deleteItem($pri_id);
+        }
     }
 }

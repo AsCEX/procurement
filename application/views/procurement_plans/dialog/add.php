@@ -1,5 +1,5 @@
 
-<form id="fm" method="post" novalidate>
+<form id="ppmp-fm" method="post" novalidate>
 
 <input type="hidden" name="ppmp_id" value="<?php echo ($ppmp_id) ? $ppmp_id : 0; ?>" />
 <div id="cc" class="easyui-layout" fit="true" style="height:450px;">

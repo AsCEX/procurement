@@ -326,12 +326,12 @@ class Procurement_plan_model extends CI_Model
     }
 
 
-    public function assignPRtoPPMP($pr_id = null, $ppmp_id=null, $quarter = null){
+    public function assignPRtoPPMP($pri_id = null, $ppmp_id=null, $quarter = null){
 
         $q = get_quarter_starting_month($quarter);
 
         $update = array(
-            'pps_pr_id' => $pr_id
+            'pps_pri_id' => $pri_id
         );
 
         $this->db->where('pps_ppmp_id', $ppmp_id);

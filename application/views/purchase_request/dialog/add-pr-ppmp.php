@@ -1,8 +1,8 @@
 
-<form id="fm" method="post" novalidate>
+<form id="pri-fm" method="post" novalidate>
 
-    <div id="cc" class="easyui-layout">
-        <div data-options="region:'center',split:true,hideCollapsedContent:false,fit=true" style="height:345px;">
+    <div id="cc" class="easyui-layout" fit="true" style="height:345px;">
+        <div data-options="region:'center',split:true">
             <table id="ppmp_pr" title="" class="easyui-datagrid" fit="true"></table>
         </div>
     </div>

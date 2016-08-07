@@ -139,7 +139,7 @@ var purchase_request = {
             .dialog('center')
             .dialog('setTitle','New Procurement')
 
-        $('#fm').form('clear');
+        $('#pr-fm').form('clear');
 
 
 
@@ -150,7 +150,7 @@ var purchase_request = {
         var row = $('#dg').datagrid('getSelected');
         if (row){
             $('#dlg').dialog('open').dialog('refresh', site_url + 'purchase_request/dialog/' + row.pr_id).dialog('center').dialog('setTitle','Edit Procurement - ' + row.pr_code_id);
-            $('#fm').form('load',row);
+            $('#pr-fm').form('load',row);
             url = 'update_user.php?id='+row.id;
         }
     },
@@ -158,9 +158,14 @@ var purchase_request = {
     save: function(){
 
         $('#save_pr').linkbutton('disable');
-        $('#fm').form('submit',{
+        $('#pr-fm').form('submit',{
             url: site_url + 'purchase_request/save_request',
             onSubmit: function(){
+
+
+                var items = $("#pr_items").datagrid('getData');
+                $("#pr_item_json").val(JSON.stringify(items.rows));
+
                 if(!$(this).form('validate'))
                     $('#save_pr').linkbutton('enable');
 

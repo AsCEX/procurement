@@ -25,7 +25,7 @@ var procurement_plan = {
     datagrid: function(){
 
         using('plugins/jquery.client.paging.js', function(){
-            $("#dg").datagrid({
+            $("#ppmp-dg").datagrid({
                 url: site_url + "procurement_plan/getProcurementPlans",
                 toolbar: [
                     {
@@ -91,7 +91,7 @@ var procurement_plan = {
 
     dialog: function(){
         var ppmp = this;
-        $("#dlg").dialog({
+        $("#ppmp-dlg").dialog({
             resizable: true,
             modal: true,
             closed: true,
@@ -103,35 +103,36 @@ var procurement_plan = {
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg").dialog('close');
+                    $("#ppmp-dlg").dialog('close');
                 }
             }]
         });
     },
 
     create: function(){
-        $('#dlg').dialog('open').dialog('refresh', site_url + 'procurement_plan/dialog').dialog('center').dialog('setTitle','New Procurement');
-        $('#fm').form('clear');
+        $('#ppmp-dlg').dialog('open').dialog('refresh', site_url + 'procurement_plan/dialog').dialog('center').dialog('setTitle','New Procurement');
+        $('#ppmp-fm').form('clear');
     },
 
     update: function(){
 
-        var row = $('#dg').datagrid('getSelected');
+        var row = $('#ppmp-dg').datagrid('getSelected');
         if (row){
-            $('#dlg').dialog('open').dialog('refresh', site_url + 'procurement_plan/dialog/' + row.id).dialog('center').dialog('setTitle','Edit Procurement');
-            $('#fm').form('load',row);
+            $('#ppmp-dlg').dialog('open').dialog('refresh', site_url + 'procurement_plan/dialog/' + row.id).dialog('center').dialog('setTitle','Edit Procurement');
+            $('#ppmp-fm').form('load',row);
             url = 'update_user.php?id='+row.id;
         }
     },
 
     save: function(){
 
-        $('#fm').form('submit',{
+        $('#ppmp-fm').form('submit',{
             url: site_url + 'procurement_plan/saveProcurementPlan',
             onSubmit: function(){
 
                 var s = '';
-                var rows = $('#pg-setting').propertygrid('getChanges');
+                var settings = $('#pg-setting').propertygrid('getData');
+                var rows = settings.rows;
                 for(var i=0; i<rows.length; i++){
                     s += rows[i].name + ':' + rows[i].value + ',';
                 }
@@ -143,8 +144,8 @@ var procurement_plan = {
             success: function(result){
 
                 $.messager.alert('My Title','Successful', 'info', function(){
-                    $('#dlg').dialog('close');        // close the dialog
-                    $('#dg').datagrid('reload');    // reload the user data
+                    $('#ppmp-dlg').dialog('close');        // close the dialog
+                    $('#ppmp-dg').datagrid('reload');    // reload the user data
                 });
 
             }
@@ -153,13 +154,13 @@ var procurement_plan = {
 
     delete: function(){
 
-        var row = $('#dg').datagrid('getSelected');
+        var row = $('#ppmp-dg').datagrid('getSelected');
         if (row){
             $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                 if (r){
                     $.post('destroy_user.php',{id:row.id},function(result){
                         if (result.success){
-                            $('#dg').datagrid('reload');    // reload the user data
+                            $('#ppmp-dg').datagrid('reload');    // reload the user data
                         } else {
                             $.messager.show({    // show error message
                                 title: 'Error',
