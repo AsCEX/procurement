@@ -48,7 +48,7 @@
             </div>
             <div class="fitem">
                 <label>Password:</label>
-                <input name="emp_password" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->emp_password) ? $employees->emp_password : ""; ?>">
+                <input name="emp_password" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->emp_password) ? $employee->emp_password : ""; ?>">
             </div>
         </div>
     </div>

@@ -96,8 +96,8 @@ var employees = {
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-suppliers').dialog('close');        // close the dialog
-                    $('#dg-suppliers').datagrid('reload');    // reload the user data
+                    $('#dlg-employees').dialog('close');        // close the dialog
+                    $('#dg-employees').datagrid('reload');    // reload the user data
                 });
             },
             error: function(response){
@@ -106,5 +106,15 @@ var employees = {
                 });
             }
         });
+    },
+
+    update: function(){
+
+        var row = $('#dg-employees').datagrid('getSelected');
+        console.log(row);
+        if (row){
+            $('#dlg-employees').dialog('open').dialog('refresh', site_url + 'employees/dialog/' + row.emp_id).dialog('center').dialog('setTitle','Edit');
+            $('#fm-employees').form('load',row);
+        }
     },
 }

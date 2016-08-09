@@ -28,8 +28,7 @@ class employees extends CI_Controller {
     public function saveEmployee() {
         
         $post = $_POST;
-//        print_r($post);die;
-        $emp_id = $this->employees->save($post, $post['emp_id'], $post['emp_ui_id']);
+        $emp_id = $this->employees_model->save($post, $post['emp_id'], $post['emp_ui_id']);
 
         if ( $emp_id ) {
             $this->output
@@ -43,8 +42,8 @@ class employees extends CI_Controller {
         $employee = $this->employees_model->getEmployeeById($emp_id);
 
         $data['employee'] = ($employee) ? $employee : array();
-        $data['emp_id'] = $employee['emp_id'];
-        $data['emp_ui_id'] = $employee['emp_ui_id'];
+        $data['emp_id'] = $employee->emp_id;
+        $data['emp_ui_id'] = $employee->emp_ui_id;
 
         $this->load->view('employees/dialog/add', $data);
     }
