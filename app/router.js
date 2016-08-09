@@ -17,6 +17,11 @@ var routes = {
         $('#main-content').panel('refresh', site_url + 'employees');
     },
 
+    // Suppliers
+    suppliers: function() {
+        $('#main-content').panel('refresh', site_url + 'suppliers');
+    },
+
     // Positions
     positions: function() {
         $('#main-content').panel('refresh', site_url + 'positions');

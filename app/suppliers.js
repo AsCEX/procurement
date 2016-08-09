@@ -1,37 +1,38 @@
 
-var employees = {
-    
+var suppliers = {
+
     init: function() {
         this.datagrid();
         this.dialog();
     },
+
     initForms: function() {
-        
+
     },
 
     datagrid: function() {
         using('plugins/jquery.client.paging.js', function(){
-            $('#dg-employees').datagrid({
-                url: site_url + "employees/getEmployeesGrid",
+            $('#dg-suppliers').datagrid({
+                url: site_url + 'suppliers/getSuppliersGrid',
                 toolbar: [
                     {
-                        text: 'Add Employee',
+                        text: 'Add Supplier',
                         iconCls: 'icon-add',
                         handler: function() {
-                            employees.create();
+                            suppliers.create();
                         }
                     },
                     '-',
                     {
-                        text: 'Edit Employee',
+                        text: 'Edit Supplier',
                         iconCls: 'icon-edit',
                         handler: function() {
-                            employees.update();
+                            suppliers.update();
                         }
                     },
                     '-',
                     {
-                        text: 'Delete Employee',
+                        text: 'Delete Supplier',
                         iconCls: 'icon-remove',
                         handler: function() {
 
@@ -45,52 +46,52 @@ var employees = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'pos_name',title:'Position',width:'10%'},
                         {field:'ui_lastname',title:'Lastname',width:'10%'},
                         {field:'ui_firstname',title:'Firstname',width:'10%'},
-                        {field:'ui_middlename',title:'Middle Name',width:'9%'},
+                        {field:'ui_middlename',title:'Middle Name',width:'10%'},
                         {field:'ui_extname',title:'Ext. Name',width:'10%'},
-                        {field:'ui_address',title:'Address',width:'20%'},
+                        {field:'ui_address',title:'Address',width:'14%'},
                         {field:'ui_birthdate',title:'Birthdate',width:'10%'},
-                        {field:'emp_username',title:'Username',width:'10%'},
-                        {field:'emp_password',title:'Password',width:'10%'},
+                        {field:'supp_business_name',title:'Business Name',width:'10%'},
+                        {field:'supp_address',title:'Business Address',width:'14%'},
+                        {field:'supp_tin',title:'TIN',width:'10%'},
                     ]
                 ]
             }).datagrid('clientPaging');
-        });
+        })
     },
 
     dialog: function() {
-        var employees = this;
-        $("#dlg-employees").dialog({
+        var suppliers = this;
+        $("#dlg-suppliers").dialog({
             resizable: true,
             modal: true,
             closed: true,
             buttons:[{
                 text:'Save',
                 handler:function(){
-                    employees.save();
+                    suppliers.save();
                 }
             },{
                 text:'Close',
                 handler:function(){
-                    $("#dlg-employees").dialog('close');
+                    $("#dlg-suppliers").dialog('close');
                 }
             }],
             onLoad: function(){
-                $("#emp_ui_birthdate").textbox('textbox').mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
+                $("#supp_ui_birthdate").textbox('textbox').mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
             }
         });
     },
 
     create: function(){
-        $('#dlg-employees').dialog('open').dialog('refresh', site_url + 'employees/dialog').dialog('center').dialog('setTitle','New');
-        $('#fm-employees').form('clear');
+        $('#dlg-suppliers').dialog('open').dialog('refresh', site_url + 'suppliers/dialog').dialog('center').dialog('setTitle','New');
+        $('#fm-suppliers').form('clear');
     },
 
     save: function() {
-        $('#fm-employees').form('submit',{
-            url: site_url + 'employees/saveEmployee',
+        $('#fm-suppliers').form('submit',{
+            url: site_url + 'suppliers/saveSupplier',
             onSubmit: function(){
                 return $(this).form('validate');
             },
@@ -99,12 +100,17 @@ var employees = {
                     $('#dlg-suppliers').dialog('close');        // close the dialog
                     $('#dg-suppliers').datagrid('reload');    // reload the user data
                 });
-            },
-            error: function(response){
-                $.messager.alert('Message',response, 'info', function(){
-
-                });
             }
         });
+    },
+
+    update: function(){
+
+        var row = $('#dg-suppliers').datagrid('getSelected');
+        console.log(row);
+        if (row){
+            $('#dlg-suppliers').dialog('open').dialog('refresh', site_url + 'suppliers/dialog/' + row.supp_id).dialog('center').dialog('setTitle','Edit');
+            $('#fm-suppliers').form('load',row);
+        }
     },
 }

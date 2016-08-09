@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Procurement and Inventory Management System</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Procurement and Inventory Management System</title>
 
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/bootstrap.scaffolding.min.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/font-awesome.min.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/black/easyui.css') ?>">
-    <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/icon.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/black/easyui.css') ?>">
+	<link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/themes/icon.css') ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo site_url('assets/css/main.css') ?>">
     <style>
         body{
@@ -60,14 +60,14 @@
             </div>
             <div id="setup" style="width:150px;">
                 <div onclick="javascript:routes.employees()">Employees</div>
-                <div onclick="javascript:routes.underconstruction()">Suppliers</div>
-                <div onclick="javascript:routes.underconstruction()">Positions</div>
-                <div onclick="javascript:routes.underconstruction()">Departments</div>
+                <div onclick="javascript:routes.suppliers()">Suppliers</div>
+                <div onclick="javascript:routes.positions()">Positions</div>
+                <div onclick="javascript:routes.offices()">Departments</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.underconstruction()">Categories</div>
-                <div onclick="javascript:routes.underconstruction()">Source Funds</div>
+                <div onclick="javascript:routes.categories()">Categories</div>
+                <div onclick="javascript:routes.funds()">Source Funds</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.underconstruction()">Units</div>
+                <div onclick="javascript:routes.units()">Units</div>
             </div>
 
 

@@ -24,6 +24,31 @@ class Positions extends MY_Controller {
             ->set_output(json_encode($resultSet) );
     }
 
+    public function getPositionsComboBox($pos_id = null) {
+
+        $positions = $this->positions_model->getPositions();
+
+        $pos_data = array();
+
+        foreach ($positions as $position) {
+
+            $temp = array(
+                'name' => $position->pos_id,
+                'value' => $position->pos_name
+            );
+
+            if ($position->pos_id == $pos_id) {
+                $temp['selected'] = true;
+            }
+
+            $pos_data[] = $temp;
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($pos_data) );
+    }
+
     public function savePosition() {
 
         $post = $_POST;
