@@ -221,8 +221,9 @@ class Purchased_request_model extends CI_Model
                 pri_description as description,
                 pri_qty as qty,
                 limit_qty,
-                REPLACE(FORMAT(ppmp_budget/max_qty, 2),',','') as item_cost,
-                (ppmp_budget/max_qty) * limit_qty as limit_budget,
+                pri_cost as item_cost,
+                ROUND(pri_cost*pri_qty,2) as tot_cost,
+                ROUND((ppmp_budget/max_qty) * limit_qty, 2) as limit_budget,
                 unit_name,
                 pri_cost as cost,
                 max_qty,
@@ -239,7 +240,8 @@ class Purchased_request_model extends CI_Model
                 LEFT JOIN tbl_categories ON cat_id = ppmp_category_id
                 LEFT JOIN tbl_units ON unit_id = ppmp_unit
                 WHERE pri_pr_id = $pr_id
-                GROUP BY pri_id";
+                GROUP BY pri_id
+                ORDER BY cat_id";
 
         $qry = $this->db->query($sql);
 
@@ -342,6 +344,7 @@ class Purchased_request_model extends CI_Model
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
                 ROUND((ppmp_budget/tot_budget.tot_qty),2) as item_cost,
+                ROUND((ppmp_budget/tot_budget.tot_qty) * COALESCE(sum(pps_value), 0), 2) as tot_cost,
                 ROUND((ppmp_budget/tot_budget.tot_qty) *  COALESCE(sum(pps_value), 0), 2) as cost,
             ";
 
@@ -378,9 +381,7 @@ class Purchased_request_model extends CI_Model
 
 
         $this->db->group_by("ppmp_id");
-        if($pr_id)
-            $this->db->order_by("pri_id", "DESC");
-        $this->db->order_by("ppmp_created_date");
+        $this->db->order_by("cat_id");
 
 
         $rs = $this->db->get($this->procurement_plan_table);

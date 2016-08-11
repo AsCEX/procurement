@@ -44,7 +44,7 @@ var purchase_request = {
     datagrid: function(){
 
         using('plugins/jquery.client.paging.js', function(){
-            $("#dg").datagrid({
+            $("#pr-dg").datagrid({
                 url: site_url + "purchase_request/gridValues",
                 toolbar: [
                     {
@@ -147,9 +147,9 @@ var purchase_request = {
 
     update: function(){
 
-        var row = $('#dg').datagrid('getSelected');
+        var row = $('#pr-dg').datagrid('getSelected');
         if (row){
-            $('#dlg').dialog('open').dialog('refresh', site_url + 'purchase_request/dialog/' + row.pr_id).dialog('center').dialog('setTitle','Edit Procurement - ' + row.pr_code_id);
+            $('#dlg').dialog('open').dialog('refresh', site_url + 'purchase_request/dialog/' + row.pr_id).dialog('center').dialog('setTitle','Purchased Request - ' + row.pr_code_id);
             $('#pr-fm').form('load',row);
             url = 'update_user.php?id='+row.id;
         }
@@ -174,8 +174,9 @@ var purchase_request = {
             success: function(result){
 
                 $.messager.alert('My Title','Successful', 'info', function(){
-                    $('#dlg').dialog('close');        // close the dialog
-                    $('#dg').datagrid('reload');    // reload the user data
+                    //$('#dlg').dialog('close');
+                    $('#pr-dg').datagrid('reload');    // reload the user data
+                    $('#pr-items').datagrid('reload');    // reload the user data
                 });
 
                 $('#save_pr').linkbutton('enable');
@@ -185,13 +186,13 @@ var purchase_request = {
 
     delete: function(){
 
-        var row = $('#dg').datagrid('getSelected');
+        var row = $('#pr-dg').datagrid('getSelected');
         if (row){
             $.messager.confirm('Confirm','Are you sure you want to destroy this user?',function(r){
                 if (r){
                     $.post('destroy_user.php',{id:row.id},function(result){
                         if (result.success){
-                            $('#dg').datagrid('reload');    // reload the user data
+                            $('#pr-dg').datagrid('reload');    // reload the user data
                         } else {
                             $.messager.show({    // show error message
                                 title: 'Error',

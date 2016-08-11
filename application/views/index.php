@@ -28,7 +28,7 @@
     <div class="easyui-layout" fit="true">
         <div region="west" split="false" width="20%" style="padding:0 5px;"><?php echo $this->session->userdata('u_firstname') . " " . $this->session->userdata('u_lastname'); ?></div>
         <div region="center" split="false" style="padding:0 5px;">asdf</div>
-        <div region="east" split="false" width="20%" style="padding:0 5px;">asfds</div>
+        <div region="east" split="false" width="20%" style="padding:0 5px;"><span id="system-clock" style="float:right;"></span></div>
     </div>
 </div>
 
@@ -37,9 +37,6 @@
 
     <div class="easyui-layout" fit="true" style="height:250px;">
         <div region="north" style="height:32px;">
-            <div style="float:right;margin:4px 5px 0 0">
-                <input class="easyui-searchbox" prompt="Please input value" style="width:300px">
-            </div>
 
             <div id="mm" style="padding:2px 5px;">
                 <a href="" class="easyui-linkbutton" data-options="plain:true">Home</a>
@@ -51,13 +48,10 @@
             <div id="mm1" style="width:250px;">
                 <div onclick="javascript:routes.procurement_plan()" >Procurement Plans</div>
                 <div onclick="javascript:routes.purchase_request()" >Purchase Requests</div>
-                <div onclick="javascript:alert('easyui')" >Purchase Orders</div>
+                <div onclick="javascript:routes.underconstruction()" >Purchase Orders</div>
             </div>
-            <div id="mm2" style="width:100px;">
-                <div>Help</div>
-                <div>Update</div>
-                <div>About</div>
-            </div>
+
+
             <div id="setup" style="width:150px;">
                 <div onclick="javascript:routes.employees()">Employees</div>
                 <div onclick="javascript:routes.suppliers()">Suppliers</div>
@@ -83,6 +77,7 @@
 
 </div>
 
+<script type="text/javascript" src="<?php echo site_url('app/clock.js') ?>"></script>
 
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/jquery.maskedinput.min.js') ?>"></script>
@@ -102,7 +97,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
         setTimeout(showBody, 100);
-
+        clock();
     });
 
     function showBody(){

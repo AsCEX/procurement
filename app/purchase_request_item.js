@@ -75,7 +75,12 @@ var request_items = {
                                     }
                                 }
                             }},
-                            {field:'cost',title:'Cost',width:'10%',align:'right'},
+                            {field:'tot_cost',title:'Cost',width:'10%',align:'right',editor:{
+                                type: 'numberbox',
+                                options:{
+                                    precision: 2
+                                }
+                            }},
                             {field:'ppmp_id',title:'',width:'12%',align:'center',formatter: function(value,row,index){
                                 /*return '<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff" onclick="request_items.onClickCell()">details</a> | '
                                 +'<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff;" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">remove</a>';*/
@@ -86,10 +91,12 @@ var request_items = {
                     onDblClickCell: request_items.onDblClickCell,
                     onEndEdit: request_items.onEndEdit,
                     onClickCell: request_items.onClickCell,
+                    onBeginEdit: request_items.calculateCost,
                     onLoadSuccess:function(){
                         //$(this).datagrid('getPanel').find('a.easyui-linkbutton').linkbutton();
 
 
+                        request_items.editIndex = undefined;
 
                     }
                 }).datagrid('clientPaging');
@@ -114,8 +121,19 @@ var request_items = {
 
         },
 
-        checkItems: function(){
 
+        calculateCost: function(rowIndex){
+            var editors = $('#pr_items').datagrid('getEditors', rowIndex);
+            var n1 = $(editors[0].target);
+            var n2 = $(editors[1].target);
+            var n3 = $(editors[2].target);
+
+            n1.add(n2).numberbox({
+                onChange:function(){
+                    var cost = n1.numberbox('getValue') * n2.numberbox('getValue');
+                    n3.textbox('setValue',cost.toFixed(2));
+                }
+            })
         },
 
         endEditing: function (){
@@ -134,6 +152,7 @@ var request_items = {
             }
         },
         onDblClickCell: function(index, field){
+
             if (request_items.editIndex != index){
                 if (request_items.endEditing()){
                     $('#pr_items').datagrid('selectRow', index)
@@ -166,12 +185,8 @@ var request_items = {
         },
         onEndEdit: function(index, row, changes){
 
-            console.log(index);
-            console.log(row);
-            console.log(changes.cost);
-            console.log(row.limit_budget);
-
-            if(changes.cost*1 > row.limit_budget*1){
+            //TO DO: check the maximum limit of budget
+            /*if(changes.cost*1 > row.limit_budget*1){
                 $.messager.alert("Warning", "You entered " + changes.cost +", should not greater than the maximum budget " + row.limit_budget, 'warning');
 
                 $("#pr_items").datagrid('updateRow',{
@@ -191,7 +206,7 @@ var request_items = {
                          qty: row.limit_qty
                      }
                  });
-             }
+             }*/
 
         },
         append: function(){
@@ -276,7 +291,7 @@ var request_items = {
                         {field:'qty',title:'Qty',width:'10%',align:'right'},
                         {field:'unit_name',title:'Unit',width:'10%'},
                         {field:'item_cost',title:'Item Cost',width:'15%'},
-                        {field:'cost',title:'Cost',width:'15%',align:'right'},
+                        {field:'tot_cost',title:'Cost',width:'15%',align:'right'},
                     ]
                 ],
             }).datagrid('clientPaging');

@@ -3,7 +3,7 @@
 
 <input type="hidden" name="pr_id" id="pr_id" value="<?php echo ($pr_id) ? $pr_id : 0; ?>" />
 <div id="cc" class="easyui-layout" fit="true" style="height:575px">
-    <div data-options="region:'south',title:'Procurement Plan',split:true,hideCollapsedContent:false" style="height:300px;">
+    <div data-options="region:'south',title:'Purchase Request',split:true,hideCollapsedContent:false" style="height:300px;">
             <table id="pr_items" title="" class="easyui-datagrid" fit="true"></table>
     </div>
     <div region="east" title="Optional" split="true" style="padding:5px;width:350px">
