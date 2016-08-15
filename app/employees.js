@@ -34,7 +34,20 @@ var employees = {
                         text: 'Delete Employee',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-employees').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Confirm', 'Delete Employee?', function(r) {
+                                    if ( r ) {
+                                        $.post( site_url + 'employees/deleteEmployee', { emp_id: row.emp_id }, function(response) {
+                                            if ( response.status == 'success' ) {
+                                                $.messager.alert('Message', 'Success', 'info', function(){
+                                                    $('#dg-employees').datagrid('reload');
+                                                })
+                                            }
+                                        }, 'json');
+                                    }
+                                })
+                            }
                         }
                     }
                 ],

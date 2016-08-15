@@ -53,6 +53,18 @@ class Funds extends MY_Controller {
 
     }
 
+    public function deleteFund() {
+
+        $post = $_POST;
+        $fund = $this->funds_model->delete($post);
+
+        if ( $fund ) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output( json_encode( array( 'status' => 'success' ) ) );
+        }
+    }
+
     public function dialog($fund_id = 0){
 
         $funds = $this->funds_model->getFundById($fund_id);

@@ -77,4 +77,11 @@ class Units_model extends CI_Model
         }
     }
 
+    public function delete( $data ) {
+
+        $this->db->where( "unit_id", $data['unit_id'] );
+        if ( $this->db->delete( $this->units_tbl ) ) return TRUE;
+        else return FALSE;
+    }
+
 }

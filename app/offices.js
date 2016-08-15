@@ -35,7 +35,20 @@ var offices = {
                         text: 'Delete Department',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-offices').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Confirm', 'Delete Department', function(r){
+                                   if ( r ) {
+                                       $.post( site_url + 'offices/deleteOffice', {ofc_id: row.ofc_id}, function(response){
+                                           if ( response.status == 'success' ) {
+                                               $.messager.alert('Message','Successful', 'info', function(){
+                                                   $('#dg-offices').datagrid('reload');    // reload the user data
+                                               });
+                                           }
+                                       }, 'json');
+                                   }
+                                });
+                            }
                         }
                     }
                 ],

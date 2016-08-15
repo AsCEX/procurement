@@ -36,7 +36,20 @@ var funds = {
                         text: 'Delete Fund',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-funds').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm( 'Confirm', 'Delete Fund', function(r) {
+                                   if ( r ) {
+                                       $.post( site_url + 'funds/deleteFund', { fund_id: row.name }, function(response){
+                                           if ( response.status == 'success' ) {
+                                               $.messager.alert('Message', 'Successful', 'info', function(){
+                                                   $('#dg-funds').datagrid('reload');
+                                               });
+                                           }
+                                       }, 'json');
+                                   }
+                                });
+                            }
                         }
                     }
                 ],
@@ -87,8 +100,8 @@ var funds = {
             },
             success: function(result){
                 $.messager.alert('Message','Successful', 'info', function(){
-                    $('#dlg-funds').dialog('close');        // close the dialog
-                    $('#dg-funds').datagrid('reload');    // reload the user data
+                    $('#dlg-funds').dialog('close');
+                    $('#dg-funds').datagrid('reload');
                 });
             }
         });

@@ -80,6 +80,18 @@ class Units extends MY_Controller {
         }
     }
 
+    public function deleteUnit() {
+
+        $post = $_POST;
+        $unit = $this->units_model->delete($post);
+
+        if ( $unit ) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output( json_encode( array( 'status' => 'success') ) );
+        }
+    }
+
     public function dialog($unit_id = 0){
 
         $unit = $this->units_model->getUnitById($unit_id);

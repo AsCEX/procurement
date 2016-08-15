@@ -37,6 +37,7 @@ class Employees_model extends CI_Model
             $this->db->where("emp_id", $id);
         }
 
+        $this->db->where( "emp_status", 1 );
         $this->db->join($this->users_info_table, "emp_ui_id = ui_id", "left");
         $this->db->join($this->positions_table, "emp_position_id = pos_id", "left");
         $this->db->order_by("ui_lastname", "asc");
@@ -106,7 +107,6 @@ class Employees_model extends CI_Model
 
     public function saveUserInfo($data, $emp_ui_id = null) {
 
-//        echo
         $userData = array(
             'ui_firstname'  => $data['ui_firstname'],
             'ui_middlename' => $data['ui_middlename'],
@@ -133,6 +133,16 @@ class Employees_model extends CI_Model
                 return false;
             }
         }
+    }
+
+    public function delete( $data ) {
+
+        $this->db->set( "emp_status", 0 );
+        $this->db->where( "emp_id", $data['emp_id'] );
+        $this->db->update( $this->employees_table );
+
+        if ( $this->db->affected_rows() > 0 ) return TRUE;
+        else return FALSE;
     }
 
 

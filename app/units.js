@@ -31,7 +31,20 @@ var units = {
                         text: 'Delete Unit',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-units').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Confirm', 'Delete Unit?', function(r){
+                                   if ( r ) {
+                                       $.post( site_url + 'units/deleteUnit', { unit_id: row.unit_id }, function(response){
+                                           if ( response.status == 'success' ) {
+                                               $.messager.alert('Message', 'Success', 'info', function(){
+                                                   $('#dg-units').datagrid('reload');
+                                               });
+                                           }
+                                       }, 'json');
+                                   }
+                                });
+                            }
                         }
                     }
                 ],

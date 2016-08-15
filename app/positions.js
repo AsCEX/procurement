@@ -36,7 +36,20 @@ var positions = {
                         text: 'Delete Position',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-positions').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Conrim', 'Delete Position?', function(r){
+                                    if ( r ) {
+                                        $.post( site_url + 'positions/deletePosition', {pos_id: row.pos_id}, function(response){
+                                            if ( response.status == 'success' ) {
+                                                $.messager.alert('Message','Successful', 'info', function(){
+                                                    $('#dg-positions').datagrid('reload');    // reload the user data
+                                                });
+                                            }
+                                        }, 'json');
+                                    }
+                                });
+                            }
                         }
                     }
                 ],

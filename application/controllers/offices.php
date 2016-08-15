@@ -73,4 +73,16 @@ class Offices extends MY_Controller {
         }
     }
 
+    public function deleteOffice() {
+
+        $post = $_POST;
+        $office = $this->offices_model->delete($post);
+
+        if ( $office ) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output( json_encode( array( 'status' => 'success' ) ) );
+        }
+    }
+
 }

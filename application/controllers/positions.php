@@ -61,6 +61,18 @@ class Positions extends MY_Controller {
         }
     }
 
+    public function deletePosition() {
+
+        $post = $_POST;
+        $position = $this->positions_model->delete($post);
+
+        if($position){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode( array ( 'status'=>'success' ) ) );
+        }
+    }
+
     public function dialog($pos_id = 0){
 
         $positions = $this->positions_model->getPositionById($pos_id);

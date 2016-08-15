@@ -35,7 +35,20 @@ var categories = {
                         text: 'Delete Category',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-categories').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Confirm', 'Delete Category?', function(r){
+                                   if ( r ) {
+                                       $.post( site_url + 'categories/deleteCategory', {cat_id: row.cat_id}, function(response){
+                                           if ( response.status == 'success' ) {
+                                               $.messager.alert('Message', 'Successful', 'info', function() {
+                                                   $('#dg-categories').datagrid('reload');
+                                               });
+                                           }
+                                       }, 'json');
+                                   }
+                                });
+                            }
                         }
                     }
                 ],
@@ -96,7 +109,6 @@ var categories = {
 
     update: function() {
         var row = $('#dg-categories').datagrid('getSelected');
-        console.log(row);
         if (row){
             $('#dlg-categories').dialog('open').dialog('refresh', site_url + 'categories/dialog/' + row.cat_id).dialog('center').dialog('setTitle','Edit');
             $('#fm-categories').form('load',row);

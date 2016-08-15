@@ -37,13 +37,23 @@ class employees extends CI_Controller {
         }
     }
 
+    public function deleteEmployee() {
+
+        $post = $_POST;
+        $emp = $this->employees_model->delete($post);
+
+        if ( $emp ) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output( json_encode( array( 'status' => 'success' ) ) );
+        }
+    }
+
     public function dialog($emp_id = 0){
 
         $employee = $this->employees_model->getEmployeeById($emp_id);
 
         $data['employee'] = ($employee) ? $employee : array();
-        $data['emp_id'] = $employee->emp_id;
-        $data['emp_ui_id'] = $employee->emp_ui_id;
 
         $this->load->view('employees/dialog/add', $data);
     }

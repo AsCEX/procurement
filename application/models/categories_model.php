@@ -72,4 +72,11 @@ class Categories_model extends CI_Model
             }
         }
     }
+
+    public function delete( $data ) {
+
+        $this->db->where("cat_id", $data['cat_id']);
+        if ( $this->db->delete( $this->categories_tbl ) ) return TRUE;
+        else return FALSE;
+    }
 }

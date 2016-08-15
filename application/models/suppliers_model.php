@@ -40,6 +40,7 @@ class Suppliers_model extends CI_Model
             supp_tin
         ");
 
+        $this->db->where("supp_status", 1);
         $this->db->join($this->users_info_table, "supp_ui_id = ui_id", "left");
         $this->db->order_by("ui_lastname", "asc");
 
@@ -151,6 +152,17 @@ class Suppliers_model extends CI_Model
                 return false;
             }
         }
+    }
 
+    public function delete( $data ) {
+
+        $supplierData = array(
+            'supp_status' => 0
+        );
+
+        $this->db->where('supp_id', $data['supp_id']);
+        $this->db->update($this->suppliers_tbl, $supplierData);
+
+        return $data['supp_id'];
     }
 }

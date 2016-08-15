@@ -47,4 +47,11 @@ class Positions_model extends CI_Model {
 
         return $funds;
     }
+
+    public function delete( $data ) {
+
+        $this->db->where("pos_id", $data['pos_id']);
+        if ( $this->db->delete($this->positions_tbl) ) return TRUE;
+        else return FALSE;
+    }
 }

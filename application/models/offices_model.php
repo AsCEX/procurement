@@ -18,6 +18,8 @@ class Offices_model extends CI_Model
     public function getOffices($id = null){
 
         $this->db->select("*");
+        $this->db->where("ofc_status", 1);
+
         $rs = $this->db->get($this->offices_tbl);
 
         return $rs->result();
@@ -83,5 +85,17 @@ class Offices_model extends CI_Model
                 return false;
             }
         }
+    }
+
+    public function delete( $data ) {
+
+        $ofcData = array(
+            'ofc_status' => 0
+        );
+
+        $this->db->where( "ofc_id", $data['ofc_id'] );
+        $this->db->update( $this->offices_tbl, $ofcData );
+
+        return $data['ofc_id'];
     }
 }

@@ -77,6 +77,18 @@ class Categories extends MY_Controller {
         }
     }
 
+    public function deleteCategory() {
+
+        $post = $_POST;
+        $category = $this->cat_model->delete($post);
+
+        if ( $category ){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output( json_encode( array( 'status' => 'success' ) ) );
+        }
+    }
+
     public function dialog($cat_id = 0){
 
         $category = $this->cat_model->getCategoryById($cat_id);

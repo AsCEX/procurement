@@ -35,7 +35,20 @@ var suppliers = {
                         text: 'Delete Supplier',
                         iconCls: 'icon-remove',
                         handler: function() {
-
+                            var row = $('#dg-suppliers').datagrid('getSelected');
+                            if ( row ) {
+                                $.messager.confirm('Confirm',  'Delete Supplier?', function(r){
+                                   if ( r ) {
+                                       $.post(site_url + 'suppliers/deleteSupplier', {supp_id: row.supp_id}, function(result){
+                                           if ( result.status == 'success' ) {
+                                               $.messager.alert('Message','Successful', 'info', function(){
+                                                   $('#dg-suppliers').datagrid('reload');
+                                               });
+                                           }
+                                       }, 'json');
+                                   }
+                                });
+                            }
                         }
                     }
                 ],
@@ -107,7 +120,6 @@ var suppliers = {
     update: function(){
 
         var row = $('#dg-suppliers').datagrid('getSelected');
-        console.log(row);
         if (row){
             $('#dlg-suppliers').dialog('open').dialog('refresh', site_url + 'suppliers/dialog/' + row.supp_id).dialog('center').dialog('setTitle','Edit');
             $('#fm-suppliers').form('load',row);

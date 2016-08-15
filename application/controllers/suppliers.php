@@ -34,7 +34,19 @@ class Suppliers extends MY_Controller {
         if($supplier){
             $this->output
                 ->set_content_type('application/json')
-                ->set_output(json_encode(array('status'=>'success', 'lastid' => $supplier->fund_id )) );
+                ->set_output(json_encode(array('status'=>'success', 'lastid' => $supplier->supp_id )) );
+        }
+    }
+
+    public function deleteSupplier() {
+
+        $post = $_POST;
+        $supplier = $this->suppliers_model->delete($post);
+
+        if($supplier){
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode( array ( 'status'=>'success' ) ) );
         }
     }
 

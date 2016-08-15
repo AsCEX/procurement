@@ -59,4 +59,11 @@ class Source_funds_model extends CI_Model
         return $funds;
     }
 
+    public function delete( $data ) {
+
+        $this->db->where( "fund_id", $data['fund_id'] );
+        if ( $this->db->delete($this->source_funds_tbl) ) return TRUE;
+        else return FALSE;
+    }
+
 }
