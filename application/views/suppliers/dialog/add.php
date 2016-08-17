@@ -1,7 +1,7 @@
 <form id="fm-suppliers" method="post" novalidate>
 
-    <input type="hidden" name="supp_id" value="<?php echo ($supp_id) ? $supp_id : ""; ?>" />
-    <input type="hidden" name="supp_ui_id" value="<?php echo ($supp_ui_id) ? $supp_ui_id : ""; ?>" />
+    <input type="hidden" name="supp_id" value="<?php echo isset($supplier->supp_id) ? $supplier->supp_id : ""; ?>" />
+    <input type="hidden" name="supp_ui_id" value="<?php echo isset($supplier->supp_ui_id) ? $supplier->supp_ui_id : ""; ?>" />
 
     <div id="cc" class="easyui-layout" fit="true" style="height:450px;">
         <div data-options="region:'center',title:'Supplier Info'" style="padding:5px;">

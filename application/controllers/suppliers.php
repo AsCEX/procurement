@@ -55,8 +55,6 @@ class Suppliers extends MY_Controller {
         $supplier = $this->suppliers_model->getSupplierById($supp_id);
 
         $data['supplier'] = ($supplier) ? $supplier : array();
-        $data['supp_id'] = $supplier->supp_id;
-        $data['supp_ui_id'] = $supplier->supp_ui_id;
 
         $this->load->view('suppliers/dialog/add', $data);
     }
