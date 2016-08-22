@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-08-06 20:39:23
+Date: 2016-08-09 20:35:00
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -172,7 +172,7 @@ CREATE TABLE `tbl_offices` (
 -- ----------------------------
 -- Records of tbl_offices
 -- ----------------------------
-INSERT INTO `tbl_offices` VALUES ('1', 'CMO', '1011', 'City Mayor\'s Office', null, '1', '2016-06-14', null, null, null, null, '0');
+INSERT INTO `tbl_offices` VALUES ('1', 'CGSO', '420', 'City General Services Office', null, '1', '2016-06-14', null, null, null, null, '0');
 INSERT INTO `tbl_offices` VALUES ('2', 'SP', '3392', 'Sangguniang Panlungsod Office - Executive Services', null, '1', '2016-06-14', null, null, null, null, '0');
 
 -- ----------------------------
@@ -216,8 +216,8 @@ CREATE TABLE `tbl_procurement_plans` (
 -- ----------------------------
 -- Records of tbl_procurement_plans
 -- ----------------------------
-INSERT INTO `tbl_procurement_plans` VALUES ('1', '123', 'The quick brown fox', null, '3', '123.00', '1', '1', '1', '2016-08-01 00:00:00', '1', null, null, null, null);
-INSERT INTO `tbl_procurement_plans` VALUES ('2', '321', '98765421', null, '1', '132.00', '1', '1', '1', '2016-07-27 00:00:00', '1', null, null, null, null);
+INSERT INTO `tbl_procurement_plans` VALUES ('1', '420', 'asdfasf', null, '1', '12000.00', '1', '1', '1', '2016-08-07 00:00:00', '1', null, null, null, null);
+INSERT INTO `tbl_procurement_plans` VALUES ('2', '421', 'AVE AVE', null, '1', '16000.00', '2', '1', '1', '2016-08-07 00:00:00', '1', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_procurement_plan_schedules`
@@ -228,37 +228,37 @@ CREATE TABLE `tbl_procurement_plan_schedules` (
   `pps_ppmp_id` int(11) DEFAULT NULL,
   `pps_month` int(11) DEFAULT NULL,
   `pps_value` double DEFAULT NULL,
-  `pps_pr_id` int(11) DEFAULT NULL,
+  `pps_pri_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`pps_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_procurement_plan_schedules
 -- ----------------------------
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('1', '1', '1', '1.5', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('2', '1', '2', '0', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('3', '1', '3', '1', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('4', '1', '4', '1', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('5', '1', '5', '5.5', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('6', '1', '6', '2', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('7', '1', '7', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('1', '1', '1', '3', '22');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('2', '1', '2', '0', '22');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('3', '1', '3', '0', '22');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('4', '1', '4', '3', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('5', '1', '5', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('6', '1', '6', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('7', '1', '7', '3', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('8', '1', '8', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('9', '1', '9', '3', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('10', '1', '10', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('11', '1', '11', '3', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('9', '1', '9', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('10', '1', '10', '3', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('11', '1', '11', '0', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('12', '1', '12', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('13', '2', '1', '1', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('14', '2', '2', '0', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('15', '2', '3', '0', '1');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('16', '2', '4', '1', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('13', '2', '1', '4', '21');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('14', '2', '2', '0', '21');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('15', '2', '3', '0', '21');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('16', '2', '4', '4', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('17', '2', '5', '0', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('18', '2', '6', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('19', '2', '7', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('19', '2', '7', '4', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('20', '2', '8', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('21', '2', '9', '1', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('22', '2', '10', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('21', '2', '9', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('22', '2', '10', '4', null);
 INSERT INTO `tbl_procurement_plan_schedules` VALUES ('23', '2', '11', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('24', '2', '12', '1', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('24', '2', '12', '0', null);
 
 -- ----------------------------
 -- Table structure for `tbl_purchased_orders`
@@ -332,7 +332,7 @@ CREATE TABLE `tbl_purchase_requests` (
 -- ----------------------------
 -- Records of tbl_purchase_requests
 -- ----------------------------
-INSERT INTO `tbl_purchase_requests` VALUES ('1', '1', '', '0000-00-00', '', '0000-00-00', '1', 'fasdfa', '1', null, null, null, 'adfa', null, '2016-08-04', null, null);
+INSERT INTO `tbl_purchase_requests` VALUES ('1', '1', '', '0000-00-00', '', '0000-00-00', '1', '112saf', '1', null, null, null, 'rtete', null, '2016-08-07', null, '2016-08-07');
 
 -- ----------------------------
 -- Table structure for `tbl_purchase_request_items`
@@ -346,13 +346,13 @@ CREATE TABLE `tbl_purchase_request_items` (
   `pri_description` text,
   `pri_cost` decimal(11,2) DEFAULT NULL,
   PRIMARY KEY (`pri_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_purchase_request_items
 -- ----------------------------
-INSERT INTO `tbl_purchase_request_items` VALUES ('1', '1', '2', '1.00', '98765421', '33.00');
-INSERT INTO `tbl_purchase_request_items` VALUES ('2', '1', '1', '2.50', 'The quick brown fox', '18.09');
+INSERT INTO `tbl_purchase_request_items` VALUES ('21', '1', '2', '3.50', 'AVE AVE', '500.00');
+INSERT INTO `tbl_purchase_request_items` VALUES ('22', '1', '1', '5.00', 'asdfasf', '700.00');
 
 -- ----------------------------
 -- Table structure for `tbl_purchase_request_item_details`
@@ -424,33 +424,6 @@ CREATE TABLE `tbl_sub_categories` (
 -- Records of tbl_sub_categories
 -- ----------------------------
 INSERT INTO `tbl_sub_categories` VALUES ('1', '1', '1', 'Sample Category');
-
--- ----------------------------
--- Table structure for `tbl_suppliers`
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_suppliers`;
-CREATE TABLE `tbl_suppliers` (
-  `s_id` int(11) NOT NULL AUTO_INCREMENT,
-  `s_business_name` varchar(100) DEFAULT NULL,
-  `s_first_name` varchar(50) DEFAULT NULL,
-  `s_middle_name` varchar(50) DEFAULT NULL,
-  `s_last_name` varchar(50) DEFAULT NULL,
-  `s_ext_name` varchar(5) DEFAULT NULL,
-  `s_address` text,
-  `s_created_by` int(11) DEFAULT NULL,
-  `s_created_date` datetime DEFAULT NULL,
-  `s_modified_by` int(11) DEFAULT NULL,
-  `s_modified_date` datetime DEFAULT NULL,
-  `s_deleted_by` int(11) DEFAULT NULL,
-  `s_deleted_date` datetime DEFAULT NULL,
-  `s_status` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`s_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of tbl_suppliers
--- ----------------------------
-INSERT INTO `tbl_suppliers` VALUES ('1', 'Mocks', 'Allan', 'S', 'Cabusora', '', 'SIR Matina, Sandawa Pogi St', null, null, null, null, null, null, '0');
 
 -- ----------------------------
 -- Table structure for `tbl_units`

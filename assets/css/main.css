@@ -1,3 +1,7 @@
+a{
+    color: #fff;
+}
+
 #main-content,
 .datagrid-view2 > .datagrid-body{
     background: url('../images/logo.png') center center no-repeat;

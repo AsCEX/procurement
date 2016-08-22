@@ -23,6 +23,14 @@ var request_items = {
 
                             }
                         },
+                        {
+                            text: 'Done',
+                            iconCls: 'icon-add',
+                            handler: function(){
+                                request_items.endEditing();
+
+                            }
+                        },
                     ],
                     pagination:"true",
                     pageSize:10,
@@ -39,79 +47,86 @@ var request_items = {
                             {field:'qty',title:'Qty',width:'10%',align:'right',editor:{
                                 type: 'numberbox',options:{
                                     precision: 2,
-                                    filter: function(e, row){
-                                        if(!isNaN(e.key)){
-                                            return true;
-                                        }else{
-                                            if(e.keyCode == 46){
-                                                return true;
-                                            }
-                                            if(e.keyCode == 13){
-                                                request_items.endEditing();
-                                                return true;
-                                            }
-                                            return false;
-                                        }
-                                    }
                                 }
                             }},
                             {field:'unit_name',title:'Unit',width:'10%'},
                             {field:'item_cost',title:'Item Cost',width:'10%',align:'right',editor:{
                                 type: 'numberbox',options:{
                                     precision: 2,
-                                    filter: function(e){
-                                        if(!isNaN(e.key)){
-                                            return true;
-                                        }else{
-                                            if(e.keyCode == 46){
-                                                return true;
-                                            }
-                                            if(e.keyCode == 13){
-                                                request_items.endEditing();
-                                                return true;
-                                            }
-                                            return false;
-                                        }
-                                    }
                                 }
                             }},
-                            {field:'tot_cost',title:'Cost',width:'10%',align:'right',editor:{
-                                type: 'numberbox',
-                                options:{
-                                    precision: 2
+                            {field:'tot_cost',title:'Cost',width:'10%',align:'right'},
+                            {field:'action',title:'Action',width:'12%',align:'center',formatter: function(value,row,index){
+
+                                if (row.editing){
+                                    var s = '<a href="javascript:void(0)" onclick="request_items.saverow(this)">Save</a> ';
+                                    var c = '<a href="javascript:void(0)" onclick="request_items.cancelrow(this)">Cancel</a>';
+                                    return s+c;
+                                } else {
+                                    var e = '<a href="javascript:void(0)" onclick="request_items.editrow(this)">Edit</a> ';
+                                    var d = '<a href="javascript:void(0)" onclick="request_items.deleterow(this)">Delete</a>';
+                                    return e+d;
                                 }
-                            }},
-                            {field:'ppmp_id',title:'',width:'12%',align:'center',formatter: function(value,row,index){
-                                /*return '<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff" onclick="request_items.onClickCell()">details</a> | '
-                                +'<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff;" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">remove</a>';*/
-                                return '<a id="btn" href="#" class="easyui-linkbutton" style="color: #fff;" onclick="request_items.deleteRequestItemGridRow(\'' + index +'\')">remove</a>';
+
                             }}
                         ]
                     ],
-                    onDblClickCell: request_items.onDblClickCell,
-                    onEndEdit: request_items.onEndEdit,
-                    onClickCell: request_items.onClickCell,
-                    onBeginEdit: request_items.calculateCost,
-                    onLoadSuccess:function(){
-                        //$(this).datagrid('getPanel').find('a.easyui-linkbutton').linkbutton();
+
+                    onEndEdit:function(index,row){
+                        var ed_qty = $(this).datagrid('getEditor', {
+                            index: index,
+                            field: 'qty'
+                        });
+                        row.qty = $(ed_qty.target).numberbox('getValue');
+
+                        var ed_item_cost = $(this).datagrid('getEditor', {
+                            index: index,
+                            field: 'item_cost'
+                        });
+                        row.item_cost = $(ed_item_cost.target).numberbox('getValue');
+
+                        var cost = row.qty * row.item_cost;
+
+                        row.tot_cost = cost.toFixed(2);
 
 
-                        request_items.editIndex = undefined;
-
+                    },
+                    onBeforeEdit:function(index,row){
+                        row.editing = true;
+                        $(this).datagrid('refreshRow', index);
+                    },
+                    onAfterEdit:function(index,row){
+                        row.editing = false;
+                        $(this).datagrid('refreshRow', index);
+                    },
+                    onCancelEdit:function(index,row){
+                        row.editing = false;
+                        $(this).datagrid('refreshRow', index);
                     }
                 }).datagrid('clientPaging');
             });
 
         },
-
-        deleteRequestItemGridRow: function(index){
-            $("#pr_items").datagrid('deleteRow', index);
+        getRowIndex:  function(target){
+            var tr = $(target).closest('tr.datagrid-row');
+            return parseInt(tr.attr('datagrid-row-index'));
         },
-
-        pr_details: function(){
-            alert("SDLFKJS");
+        editrow: function(target){
+            $('#pr_items').datagrid('beginEdit', request_items.getRowIndex(target));
         },
-
+        deleterow: function(target){
+            $.messager.confirm('Confirm','Are you sure?',function(r){
+                if (r){
+                    $('#pr_items').datagrid('deleteRow', request_items.getRowIndex(target));
+                }
+            });
+        },
+        saverow: function(target){
+            $('#pr_items').datagrid('endEdit', request_items.getRowIndex(target));
+        },
+        cancelrow: function(target){
+            $('#pr_items').datagrid('cancelEdit', request_items.getRowIndex(target));
+        },
 
         create_pr_item: function(pr_id, department, quarter){
             $('#pr-ppmp-dlg').dialog('open')
@@ -121,119 +136,6 @@ var request_items = {
 
         },
 
-
-        calculateCost: function(rowIndex){
-            var editors = $('#pr_items').datagrid('getEditors', rowIndex);
-            var n1 = $(editors[0].target);
-            var n2 = $(editors[1].target);
-            var n3 = $(editors[2].target);
-
-            n1.add(n2).numberbox({
-                onChange:function(){
-                    var cost = n1.numberbox('getValue') * n2.numberbox('getValue');
-                    n3.textbox('setValue',cost.toFixed(2));
-                }
-            })
-        },
-
-        endEditing: function (){
-            if (request_items.editIndex == undefined){return true}
-            if ($('#pr_items').datagrid('validateRow', request_items.editIndex)){
-                $('#pr_items').datagrid('endEdit', request_items.editIndex);
-                request_items.editIndex = undefined;
-                return true;
-            } else {
-                return false;
-            }
-        },
-        onClickCell: function(index, field){
-            if (request_items.editIndex != index){
-                request_items.endEditing();
-            }
-        },
-        onDblClickCell: function(index, field){
-
-            if (request_items.editIndex != index){
-                if (request_items.endEditing()){
-                    $('#pr_items').datagrid('selectRow', index)
-                        .datagrid('beginEdit', index);
-                    var ed = $('#pr_items').datagrid('getEditor', {index:index,field:field});
-                    if (ed){
-                        if($(ed.target).data('textbox'))
-                        {
-                            $(ed.target).textbox('textbox').focus().select().bind('keyup', function(e)
-                            {
-                                var code = e.keyCode || e.which;
-                                if(code == 13) { //Enter keycode
-                                    alert("LSDKFJS");
-                                    request_items.endEditing();
-                                }
-                            })
-                        }else{
-                            $(ed.target).focus();
-                        }
-
-
-                    }
-                    request_items.editIndex = index;
-                } else {
-                    setTimeout(function(){
-                        $('#pr_items').datagrid('selectRow', request_items.editIndex);
-                    },0);
-                }
-            }
-        },
-        onEndEdit: function(index, row, changes){
-
-            //TO DO: check the maximum limit of budget
-            /*if(changes.cost*1 > row.limit_budget*1){
-                $.messager.alert("Warning", "You entered " + changes.cost +", should not greater than the maximum budget " + row.limit_budget, 'warning');
-
-                $("#pr_items").datagrid('updateRow',{
-                    index: index,
-                    row: {
-                        cost: row.limit_budget
-                    }
-                });
-            }
-
-             if(changes.qty*1 > row.limit_qty*1){
-                $.messager.alert("Warning", "You entered " + changes.qty +", should not greater than the maximum quantity " + row.limit_qty, 'warning');
-
-                 $("#pr_items").datagrid('updateRow',{
-                     index: index,
-                     row: {
-                         qty: row.limit_qty
-                     }
-                 });
-             }*/
-
-        },
-        append: function(){
-
-        /*
-            if (request_items.endEditing()){
-                $('#ppmp_pr').datagrid('appendRow',{status:'P'});
-                request_items.editIndex = $('#dg').datagrid('getRows').length-1;
-                $('#ppmp_pr').datagrid('selectRow', request_items.editIndex)
-                    .datagrid('beginEdit', request_items.editIndex);
-            }*/
-        },
-        removeit: function(){
-            if (request_items.editIndex == undefined){return}
-            $('#pr_items').datagrid('cancelEdit', request_items.editIndex)
-                .datagrid('deleteRow', request_items.editIndex);
-            request_items.editIndex = undefined;
-        },
-        accept: function(){
-            if (request_items.endEditing()){
-                $('#ppmp_pr').datagrid('acceptChanges');
-            }
-        },
-        reject: function(){
-            $('#ppmp_pr').datagrid('rejectChanges');
-            request_items.editIndex = undefined;
-        },
         getChanges: function(){
             var rows = $('#ppmp_pr').datagrid('getChanges');
             alert(rows.length+' rows are changed!');

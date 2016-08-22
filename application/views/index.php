@@ -42,13 +42,18 @@
                 <a href="" class="easyui-linkbutton" data-options="plain:true">Home</a>
                 <a href="" class="easyui-menubutton" data-options="plain:true,menu:'#mm1'">Transactions</a>
                 <a href="javascript:void(0)" class="easyui-linkbutton" data-options="plain:true">Bids &amp; Awards</a>
-                <!--<a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#mm2'">Inventory</a>-->
+                <a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#inventory'">Inventory</a>
                 <a href="#" class="easyui-menubutton" data-options="plain:true,menu:'#setup'">Setup</a>
             </div>
+
             <div id="mm1" style="width:250px;">
                 <div onclick="javascript:routes.procurement_plan()" >Procurement Plans</div>
                 <div onclick="javascript:routes.purchase_request()" >Purchase Requests</div>
                 <div onclick="javascript:routes.underconstruction()" >Purchase Orders</div>
+            </div>
+
+            <div id="inventory" style="width:250px;">
+                <div onclick="javascript:routes.inventories()" >Item Lists</div>
             </div>
 
 
