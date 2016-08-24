@@ -81,6 +81,7 @@
 
 
 </div>
+<div id="misc"></div>
 
 <script type="text/javascript" src="<?php echo site_url('app/clock.js') ?>"></script>
 
@@ -96,6 +97,10 @@
 <script type="text/javascript" src="<?php echo site_url('app/procurement_plan.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/purchase_request.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/purchase_request_item.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/offices.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/categories.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/units.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/funds.js') ?>"></script>
 
 
 

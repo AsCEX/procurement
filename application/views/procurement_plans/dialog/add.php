@@ -16,7 +16,7 @@
 
         <div class="fitem">
             <label>Office:</label>
-            <select class="easyui-combobox" editable="false" name="ppmp_office_id" style="width:250px"
+            <select class="easyui-combobox" editable="false" name="ppmp_office_id" id="ppmp_office_id" style="width:250px"
                     url="<?php echo site_url('offices/getComboboxOffices'); ?>/<?php echo isset($ppmp->ppmp_office_id) ? $ppmp->ppmp_office_id : ''; ?>"
                     method="get"
                     valueField="name"
@@ -24,11 +24,12 @@
                     textField="value"
                     required="true">
             </select>
+            <a href="javascript:offices.quickMenu('ppmp_office_id');" id="quick-menu" class="offices"><i class="fa fa-external-link-square"></i></a>
         </div>
 
         <div class="fitem">
             <label>Category:</label>
-            <select class="easyui-combobox" editable="false" name="ppmp_category" style="width:250px"
+            <select class="easyui-combobox" editable="false" name="ppmp_category" id="ppmp_category" style="width:250px"
                     url="<?php echo site_url('categories/getCategories'); ?>/<?php echo isset($ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; ?>"
                     method="get"
                     valueField="name"
@@ -36,6 +37,7 @@
                     textField="value"
                     required="true">
             </select>
+            <a href="javascript:categories.quickMenu('ppmp_category');" id="quick-menu" class="offices"><i class="fa fa-external-link-square"></i></a>
         </div>
 
         <div class="fitem">
@@ -46,14 +48,7 @@
         <div class="fitem">
             <label>Unit:</label>
             <input id="units" name="ppmp_unit" value="<?php echo isset($ppmp->ppmp_unit) ? $ppmp->ppmp_unit : ''; ?>" style="width:150px"/>
-            <!--<select class="easyui-combobox" editable="false" name="ppmp_unit" style="width:150px"
-                    url="<?php /*echo site_url('units/getUnits'); */?>"
-                    method="get"
-                    valueField="name"
-                    prompt="Select Units"
-                    textField="value"
-                    required="true">
-            </select>-->
+            <a href="javascript:units.quickMenu('units');" id="quick-menu" class="units"><i class="fa fa-external-link-square"></i></a>
         </div>
 
         <div class="fitem">
@@ -63,7 +58,7 @@
 
         <div class="fitem">
             <label>Funds:</label>
-            <select class="easyui-combobox" editable="false" name="ppmp_source_fund" style="width:200px"
+            <select class="easyui-combobox" editable="false" name="ppmp_source_fund"  id="ppmp_source_fund" style="width:200px"
                     url="<?php echo site_url('funds/getSourceFunds'); ?>/<?php echo isset($ppmp->ppmp_source_fund) ? $ppmp->ppmp_source_fund : ''; ?>"
                     method="get"
                     valueField="name"
@@ -71,6 +66,7 @@
                     prompt="Select Funds"
                     required="true">
             </select>
+            <a href="javascript:funds.quickMenu('ppmp_source_fund');" id="quick-menu" class="ppmp_source_fund"><i class="fa fa-external-link-square"></i></a>
         </div>
     </div>
 </div>

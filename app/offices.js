@@ -10,6 +10,27 @@ var offices = {
 
     },
 
+    quickMenu: function(el){
+
+        $("#misc").dialog({
+            resizable: true,
+            modal: true,
+            cloased: false,
+            width: 750,
+            height: 500,
+            href: site_url + 'offices',
+            buttons:[{
+                text:'Close',
+                handler:function(){
+                    $("#misc").dialog('close');
+                }
+            }],
+            onClose: function(){
+                $('#'+el).combobox('reload');
+            }
+        });
+    },
+
     datagrid: function() {
         using('plugins/jquery.client.paging.js', function(){
             $('#dg-offices').datagrid({

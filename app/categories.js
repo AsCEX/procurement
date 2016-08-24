@@ -10,6 +10,28 @@ var categories = {
 
     },
 
+    quickMenu: function(el){
+
+        $("#misc").dialog({
+            resizable: true,
+            modal: true,
+            cloased: false,
+            width: 750,
+            height: 500,
+            href: site_url + 'categories',
+            buttons:[{
+                text:'Close',
+                handler:function(){
+                    $("#misc").dialog('close');
+                }
+            }],
+            onClose: function(){
+                $('#'+el).combobox('reload');
+            }
+        });
+    },
+
+
     datagrid: function() {
         using('plugins/jquery.client.paging.js', function(){
             $('#dg-categories').datagrid({
@@ -59,7 +81,7 @@ var categories = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'cat_code',title:'Code',width:'10%'},
+                        {field:'cat_id',title:'ID',width:'10%'},
                         {field:'cat_description',title:'Description',width:'20%'},
                     ]
                 ]
