@@ -81,8 +81,8 @@ var categories = {
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'cat_id',title:'ID',width:'10%'},
-                        {field:'cat_description',title:'Description',width:'20%'},
+                        {field:'cat_id',title:'ID',width:'5%',align:'right'},
+                        {field:'cat_description',title:'Description'},
                     ]
                 ]
             }).datagrid('clientPaging');

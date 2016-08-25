@@ -53,7 +53,10 @@
             </div>
 
             <div id="inventory" style="width:250px;">
-                <div onclick="javascript:routes.inventories()" >Item Lists</div>
+                <div onclick="javascript:routes.categories()">Categories</div>
+                <div onclick="javascript:routes.categories()">Sub Categories</div>
+                <div class="menu-sep"></div>
+                <div onclick="javascript:routes.inventories()" >Stocks</div>
             </div>
 
 
@@ -63,7 +66,6 @@
                 <div onclick="javascript:routes.positions()">Positions</div>
                 <div onclick="javascript:routes.offices()">Departments</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.categories()">Categories</div>
                 <div onclick="javascript:routes.funds()">Source Funds</div>
                 <div class="menu-sep"></div>
                 <div onclick="javascript:routes.units()">Units</div>

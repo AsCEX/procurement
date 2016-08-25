@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-08-09 20:35:00
+Date: 2016-08-24 19:13:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -69,14 +69,24 @@ CREATE TABLE `tbl_categories` (
   `cat_description` text,
   PRIMARY KEY (`cat_id`),
   UNIQUE KEY `code` (`cat_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_categories
 -- ----------------------------
-INSERT INTO `tbl_categories` VALUES ('1', 'AV-A', 'Audio-Video Equipment - A');
-INSERT INTO `tbl_categories` VALUES ('2', 'AV-B', 'Audio-Video Equipment - B');
-INSERT INTO `tbl_categories` VALUES ('3', 'AV-C', 'Auido-Video Equipment - C');
+INSERT INTO `tbl_categories` VALUES ('1', null, 'Agricultural Supplies');
+INSERT INTO `tbl_categories` VALUES ('2', null, 'Animal & Zoological Supplies');
+INSERT INTO `tbl_categories` VALUES ('3', null, 'Construction Materials');
+INSERT INTO `tbl_categories` VALUES ('4', null, 'Drugs & Medicines');
+INSERT INTO `tbl_categories` VALUES ('5', null, 'Food & Non-Food Supplies');
+INSERT INTO `tbl_categories` VALUES ('6', null, 'Gasoline, Oils & Lubricants');
+INSERT INTO `tbl_categories` VALUES ('7', null, 'Livestock');
+INSERT INTO `tbl_categories` VALUES ('8', null, 'Medical & Dental');
+INSERT INTO `tbl_categories` VALUES ('9', null, 'Military and Police Supplies');
+INSERT INTO `tbl_categories` VALUES ('10', null, 'Office Supplies');
+INSERT INTO `tbl_categories` VALUES ('11', null, 'Other Supplies');
+INSERT INTO `tbl_categories` VALUES ('12', null, 'Spare Parts');
+INSERT INTO `tbl_categories` VALUES ('13', null, 'Textbooks and Instructional Materials');
 
 -- ----------------------------
 -- Table structure for `tbl_employees`
@@ -90,12 +100,13 @@ CREATE TABLE `tbl_employees` (
   `emp_password` varchar(100) DEFAULT NULL,
   `emp_status` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`emp_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_employees
 -- ----------------------------
 INSERT INTO `tbl_employees` VALUES ('1', '1', '1', 'superadmin', 'admin', '1');
+INSERT INTO `tbl_employees` VALUES ('2', '2', '1', 'test', 'test', '0');
 
 -- ----------------------------
 -- Table structure for `tbl_groups`
@@ -165,15 +176,15 @@ CREATE TABLE `tbl_offices` (
   `ofc_modified_date` date DEFAULT NULL,
   `ofc_deleted_by` int(11) DEFAULT NULL,
   `ofc_deleted_date` date DEFAULT NULL,
-  `ofc_status` tinyint(1) DEFAULT '0',
+  `ofc_status` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`ofc_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_offices
 -- ----------------------------
-INSERT INTO `tbl_offices` VALUES ('1', 'CGSO', '420', 'City General Services Office', null, '1', '2016-06-14', null, null, null, null, '0');
-INSERT INTO `tbl_offices` VALUES ('2', 'SP', '3392', 'Sangguniang Panlungsod Office - Executive Services', null, '1', '2016-06-14', null, null, null, null, '0');
+INSERT INTO `tbl_offices` VALUES ('1', 'CGSO', '420', 'City General Services Office', null, '1', '2016-08-22', '1', '2016-08-22', null, null, '1');
+INSERT INTO `tbl_offices` VALUES ('2', 'SP', '3392', 'Sangguniang Panlungsod Office - Executive Services', null, '1', '2016-08-23', '1', '2016-08-23', null, null, '1');
 
 -- ----------------------------
 -- Table structure for `tbl_positions`
@@ -409,21 +420,39 @@ INSERT INTO `tbl_source_funds` VALUES ('1', 'General Funds');
 INSERT INTO `tbl_source_funds` VALUES ('2', 'Trust Funds');
 
 -- ----------------------------
+-- Table structure for `tbl_stocks`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_stocks`;
+CREATE TABLE `tbl_stocks` (
+  `stock_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stock_scat_id` bigint(20) DEFAULT NULL,
+  `stock_description` text,
+  `stock_created_by` bigint(20) DEFAULT NULL,
+  `stock_created_date` datetime DEFAULT NULL,
+  `stock_modified_by` bigint(20) DEFAULT NULL,
+  `stock_modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`stock_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_stocks
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `tbl_sub_categories`
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_sub_categories`;
 CREATE TABLE `tbl_sub_categories` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `category_id` int(11) DEFAULT NULL,
-  `unit` varchar(50) DEFAULT NULL,
-  `description` text,
-  PRIMARY KEY (`id`)
+  `scat_id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `scat_cat_id` bigint(11) DEFAULT NULL,
+  `scat_description` text,
+  PRIMARY KEY (`scat_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_sub_categories
 -- ----------------------------
-INSERT INTO `tbl_sub_categories` VALUES ('1', '1', '1', 'Sample Category');
+INSERT INTO `tbl_sub_categories` VALUES ('1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_units`
@@ -504,9 +533,10 @@ CREATE TABLE `tbl_user_informations` (
   `ui_address` varchar(100) DEFAULT NULL,
   `ui_birthdate` date DEFAULT NULL,
   PRIMARY KEY (`ui_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_user_informations
 -- ----------------------------
 INSERT INTO `tbl_user_informations` VALUES ('1', 'Desidido', 'Kho', 'Manigbas', null, 'Pogi St.', '1907-01-01');
+INSERT INTO `tbl_user_informations` VALUES ('2', 'test', 'test', 'test', 's', 'alksdjflak', '1990-07-10');
