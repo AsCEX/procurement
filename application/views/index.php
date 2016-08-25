@@ -54,9 +54,9 @@
 
             <div id="inventory" style="width:250px;">
                 <div onclick="javascript:routes.categories()">Categories</div>
-                <div onclick="javascript:routes.categories()">Sub Categories</div>
+                <div onclick="javascript:routes.categories()">Stocks</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.inventories()" >Stocks</div>
+                <div onclick="javascript:routes.inventories()" >Item Lists</div>
             </div>
 
 

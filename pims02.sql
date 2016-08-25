@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-08-24 19:13:38
+Date: 2016-08-26 07:15:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -158,6 +158,25 @@ CREATE TABLE `tbl_inventories` (
 
 -- ----------------------------
 -- Records of tbl_inventories
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tbl_items`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_items`;
+CREATE TABLE `tbl_items` (
+  `item_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `item_stock_id` bigint(20) DEFAULT NULL,
+  `item_description` text,
+  `item_created_by` bigint(20) DEFAULT NULL,
+  `item_created_date` datetime DEFAULT NULL,
+  `item_modified_by` bigint(20) DEFAULT NULL,
+  `item_modified_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_items
 -- ----------------------------
 
 -- ----------------------------
@@ -424,35 +443,16 @@ INSERT INTO `tbl_source_funds` VALUES ('2', 'Trust Funds');
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_stocks`;
 CREATE TABLE `tbl_stocks` (
-  `stock_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `stock_scat_id` bigint(20) DEFAULT NULL,
+  `stock_id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `stock_cat_id` bigint(11) DEFAULT NULL,
   `stock_description` text,
-  `stock_created_by` bigint(20) DEFAULT NULL,
-  `stock_created_date` datetime DEFAULT NULL,
-  `stock_modified_by` bigint(20) DEFAULT NULL,
-  `stock_modified_date` datetime DEFAULT NULL,
   PRIMARY KEY (`stock_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_stocks
 -- ----------------------------
-
--- ----------------------------
--- Table structure for `tbl_sub_categories`
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_sub_categories`;
-CREATE TABLE `tbl_sub_categories` (
-  `scat_id` bigint(11) NOT NULL AUTO_INCREMENT,
-  `scat_cat_id` bigint(11) DEFAULT NULL,
-  `scat_description` text,
-  PRIMARY KEY (`scat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
--- ----------------------------
--- Records of tbl_sub_categories
--- ----------------------------
-INSERT INTO `tbl_sub_categories` VALUES ('1', '1', '1');
+INSERT INTO `tbl_stocks` VALUES ('1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `tbl_units`
