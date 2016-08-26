@@ -4,8 +4,8 @@
     <input type="hidden" name="emp_ui_id" value="<?php echo isset($employee->emp_ui_id) ? $employee->emp_ui_id : ""; ?>" />
 
     <div id="cc" class="easyui-layout" fit="true" style="height:450px;">
-        <div data-options="region:'center',title:'User Info'" style="padding:5px;">
-            <div class="fitem">
+        <div data-options="region:'center',title:'User Info'" class="user-info" style="padding:5px;">
+            <div class="fitem" id="fitem-ui-firstname">
                 <label>Firstname:</label>
                 <input name="ui_firstname" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_firstname) ? $employee->ui_firstname : ""; ?>">
             </div>
@@ -13,7 +13,7 @@
                 <label>Middle Name:</label>
                 <input name="ui_middlename" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_middlename) ? $employee->ui_middlename : ""; ?>">
             </div>
-            <div class="fitem">
+            <div class="fitem" id="fitem-ui-lastname">
                 <label>Lastname:</label>
                 <input name="ui_lastname" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_lastname) ? $employee->ui_lastname : ""; ?>">
             </div>
@@ -30,7 +30,7 @@
                 <input name="ui_birthdate" id="emp_ui_birthdate" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_birthdate) ? $employee->ui_birthdate : ""; ?>">
             </div>
         </div>
-        <div data-options="region:'east',title:'Employee Info',split:false,hideCollapsedContent:false" style="padding:5px;width:50%;">
+        <div data-options="region:'east',title:'Employee Info',split:false,hideCollapsedContent:false" class="emp-info" style="padding:5px;width:50%;">
             <div class="fitem">
                 <label>Position:</label>
                 <select class="easyui-combobox" editable="false" name="emp_position_id" style="width:250px"
@@ -42,19 +42,57 @@
                         required="true">
                 </select>
             </div>
-            <div class="fitem">
+            <div class="fitem" id="fitem-emp-username">
                 <label>Username:</label>
-                <input name="emp_username" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->emp_username) ? $employee->emp_username : ""; ?>">
-            </div>
-            <div class="fitem">
-                <label>Password:</label>
-                <input name="emp_password" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->emp_password) ? $employee->emp_password : ""; ?>">
+                <span></span>
+                <input name="emp_username" type="hidden" value="<?php echo isset($employee->emp_username) ? $employee->emp_username : ""; ?>">
             </div>
         </div>
     </div>
 
 </form>
+
 <style>
     #fm-employees .fitem label { width: 122px; }
     #fm-employees .fitem span.combo { width: 160px !important; }
 </style>
+
+<script>
+    $(function(){
+
+        $(document).on('change', 'form#fm-employees .user-info .fitem:first-of-type span input:first-child, form#fm-employees .user-info .fitem:nth-of-type(3) span input:first-child', function() {
+
+            if ( $("#fitem-ui-lastname span input:first-child").val().length > 1 &&  $("#fitem-ui-firstname span input:first-child").val() != "" ) {
+
+                var firstname = $("#fitem-ui-firstname span input:first-child").val().charAt(0),
+                    lastname = $("#fitem-ui-lastname span input:first-child").val();
+
+                var lastnameLength = lastname.split(" ").length;
+
+                if ( lastnameLength > 1 ) {
+                    var spaceChar = lastname.indexOf(" ");
+                    lastname = lastname.substring(0, spaceChar);
+                }
+
+                var username = firstname + lastname;
+
+                $.post( site_url + 'employees/checkUsername', { username: username }, function(response) {
+
+                    if ( Object.keys(response.result).length > 0 ) {
+                        assignUsername ( username + (Object.keys(response.result).length + 1) );
+                    } else {
+                        assignUsername( username );
+                    }
+                }, 'json');
+            }
+        });
+
+        function assignUsername ( username ) {
+
+            $("#fitem-emp-username span").html( username );
+            $("input[name='emp_username']").val( username )
+
+            return false;
+        }
+    });
+</script>

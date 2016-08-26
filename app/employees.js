@@ -66,7 +66,6 @@ var employees = {
                         {field:'ui_address',title:'Address',width:'20%'},
                         {field:'ui_birthdate',title:'Birthdate',width:'10%'},
                         {field:'emp_username',title:'Username',width:'10%'},
-                        {field:'emp_password',title:'Password',width:'10%'},
                     ]
                 ]
             }).datagrid('clientPaging');
@@ -92,6 +91,10 @@ var employees = {
             }],
             onLoad: function(){
                 $("#emp_ui_birthdate").textbox('textbox').mask("9999-99-99",{placeholder:"yyyy-mm-dd"});
+
+                if ( $("#fitem-emp-username input[name=emp_username]").val().length > 0 ) {
+                    $("#fitem-emp-username span").html( $("#fitem-emp-username input[name=emp_username]").val() );
+                }
             }
         });
     },
@@ -112,11 +115,6 @@ var employees = {
                     $('#dlg-employees').dialog('close');        // close the dialog
                     $('#dg-employees').datagrid('reload');    // reload the user data
                 });
-            },
-            error: function(response){
-                $.messager.alert('Message',response, 'info', function(){
-
-                });
             }
         });
     },
@@ -124,7 +122,6 @@ var employees = {
     update: function(){
 
         var row = $('#dg-employees').datagrid('getSelected');
-        console.log(row);
         if (row){
             $('#dlg-employees').dialog('open').dialog('refresh', site_url + 'employees/dialog/' + row.emp_id).dialog('center').dialog('setTitle','Edit');
             $('#fm-employees').form('load',row);
