@@ -53,6 +53,31 @@ class Categories extends MY_Controller {
             ->set_output(json_encode($resultSet) );
     }
 
+    public function getCategoriesComboBox( $cat_id = null ) {
+
+        $categories = $this->cat_model->getCategories();
+
+        $cat_data = array();
+
+        foreach ($categories as $cat) {
+
+            $temp = array(
+                'name' => $cat->cat_id,
+                'value' => $cat->cat_description
+            );
+
+            if ($cat->cat_id == $cat_id) {
+                $temp['selected'] = true;
+            }
+
+            $cat_data[] = $temp;
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($cat_data) );
+    }
+
     public function addCategory($id=null)
     {
         $data['categories'] = $this->cat_model->getCategoryById($id);

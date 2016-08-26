@@ -37,6 +37,11 @@ var routes = {
         $('#main-content').panel('refresh', site_url + 'categories');
     },
 
+    // Stocks
+    stocks: function () {
+        $('#main-content').panel('refresh', site_url + 'stocks');
+    },
+
     // Source Funds
     funds: function() {
         $('#main-content').panel('refresh', site_url + 'funds');

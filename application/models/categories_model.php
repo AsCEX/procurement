@@ -63,9 +63,9 @@ class Categories_model extends CI_Model
             return $id;
         }else{
 
-            $office = $this->db->insert($this->categories_tbl, $data);
+            $category = $this->db->insert($this->categories_tbl, $data);
 
-            if($office){
+            if($category){
                 return $this->db->insert_id();
             }else{
                 return false;

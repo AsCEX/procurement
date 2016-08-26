@@ -4,7 +4,7 @@
     <input type="hidden" name="emp_ui_id" value="<?php echo isset($employee->emp_ui_id) ? $employee->emp_ui_id : ""; ?>" />
 
     <div id="cc" class="easyui-layout" fit="true" style="height:450px;">
-        <div data-options="region:'center',title:'Supplier Info'" style="padding:5px;">
+        <div data-options="region:'center',title:'User Info'" style="padding:5px;">
             <div class="fitem">
                 <label>Firstname:</label>
                 <input name="ui_firstname" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_firstname) ? $employee->ui_firstname : ""; ?>">
@@ -30,7 +30,7 @@
                 <input name="ui_birthdate" id="emp_ui_birthdate" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_birthdate) ? $employee->ui_birthdate : ""; ?>">
             </div>
         </div>
-        <div data-options="region:'east',title:'Business Info',split:false,hideCollapsedContent:false" style="padding:5px;width:50%;">
+        <div data-options="region:'east',title:'Employee Info',split:false,hideCollapsedContent:false" style="padding:5px;width:50%;">
             <div class="fitem">
                 <label>Position:</label>
                 <select class="easyui-combobox" editable="false" name="emp_position_id" style="width:250px"
