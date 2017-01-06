@@ -3,10 +3,28 @@
 
 <input type="hidden" name="ppmp_id" value="<?php echo ($ppmp_id) ? $ppmp_id : 0; ?>" />
 <div id="cc" class="easyui-layout" fit="true" style="height:450px;">
-    <div data-options="region:'east',title:'Schedules',split:true,hideCollapsedContent:false" style="width:50%;">
-        <table id="pg-setting" class="easyui-propertygrid" fit="true" border="false" sortable="false"
+    <div data-options="region:'east',title:'Schedules',split:true,hideCollapsedContent:false" style="width:50%;padding:5px;">
+        <!--<table id="pg-setting" class="easyui-propertygrid" fit="true" border="false" sortable="false"
                toolbar="#tb-setting" showGroup="true">
-        </table>
+        </table>-->
+
+       <div class="fitem">
+            <label>Quarter 1:</label>
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" style="text-align:right;" value="<?php echo isset($ppmp_sched[0]['pps_value']) ? $ppmp_sched[0]['pps_value'] : ""; ?>">
+        </div>
+        <div class="fitem">
+            <label>Quarter 2:</label>
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[1]['pps_value']) ? $ppmp_sched[1]['pps_value'] : ""; ?>">
+        </div>
+        <div class="fitem">
+            <label>Quarter 3:</label>
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[2]['pps_value']) ? $ppmp_sched[2]['pps_value'] : ""; ?>">
+        </div>
+        <div class="fitem">
+            <label>Quarter 4:</label>
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[3]['pps_value']) ? $ppmp_sched[3]['pps_value'] : ""; ?>">
+        </div>
+
     </div>
     <div data-options="region:'center',title:'Procurement'" style="padding:5px;">
         <div class="fitem">
@@ -29,14 +47,16 @@
 
         <div class="fitem">
             <label>Category:</label>
-            <select class="easyui-combobox" editable="false" name="ppmp_category" id="ppmp_category" style="width:250px"
-                    url="<?php echo site_url('categories/getCategories'); ?>/<?php echo isset($ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; ?>"
+            <input id="ppmp_category" name="ppmp_category" value="<?php echo (isset($ppmp->ppmp_category_id) && $ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; ?>" style="width:250px"/>
+
+           <!-- <select class="easyui-combobox" editable="true" name="ppmp_category" id="ppmp_category" style="width:250px"
+                    url="<?php /*echo site_url('categories/getCategories'); */?>/<?php /*echo isset($ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; */?>"
                     method="get"
                     valueField="name"
                     prompt="Select Category"
                     textField="value"
                     required="true">
-            </select>
+            </select>-->
             <a href="javascript:categories.quickMenu('ppmp_category');" id="quick-menu" class="offices"><i class="fa fa-external-link-square"></i></a>
         </div>
 
@@ -71,7 +91,7 @@
     </div>
 </div>
 
-    <input type="hidden" name="schedules" id="schedules" value="" />
+    <!--<input type="hidden" name="schedules" id="schedules" value="" />-->
 </form>
 
 
@@ -119,13 +139,13 @@
                 $(this).select();
             }
         });
+
     });
-
-
-
     function onChange(theme){
         //$('#pg-setting').propertygrid('load', {theme: theme});
     }
+
+
 
     procurement_plan.initForms();
 </script>

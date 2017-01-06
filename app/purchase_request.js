@@ -72,15 +72,16 @@ var purchase_request = {
                         }
                     }
                 ],
-                pagination:"true",
+                pagination:true,
                 pageSize:10,
-                rownumbers:"true",
-                fitColumns:"true",
-                singleSelect:"true",
+                rownumbers:true,
+                fitColumns:false,
+                singleSelect:true,
+                emptyMsg: "No Records",
                 columns:[
                     [
                         {field:'pr_id',title:'ID',width:'5%'},
-                        {field:'pr_code_id',title:'Code',width:'10%'},
+                        {field:'pr_code_id',title:'Code',width:'15%'},
                         {field:'dept_name',title:'Department',width:'25%'},
                         {field:'pr_created_date',title:'Date',width:'20%'},
                         {field:'requested_user',title:'Requested By',width:'15%'},
@@ -94,7 +95,7 @@ var purchase_request = {
     dialog: function(){
         var self = this;
         $("#dlg").dialog({
-            resizable: true,
+            resizable: false,
             modal: true,
             closed: true,
             buttons:[{
@@ -116,7 +117,7 @@ var purchase_request = {
             }
         });
         $("#pr-ppmp-dlg").dialog({
-            resizable: true,
+            resizable: false,
             modal: true,
             closed: true,
             buttons:[{
@@ -137,7 +138,7 @@ var purchase_request = {
         $('#dlg').dialog('open')
             .dialog('refresh', site_url + 'purchase_request/dialog')
             .dialog('center')
-            .dialog('setTitle','New Procurement')
+            .dialog('setTitle','New Purchase Request')
 
         $('#pr-fm').form('clear');
 

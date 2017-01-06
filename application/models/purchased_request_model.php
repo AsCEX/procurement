@@ -340,7 +340,7 @@ class Purchased_request_model extends CI_Model
                 ppmp_description as description,
                 COALESCE(sum(pps_value), 0) as qty,
                 unit_name,
-                GROUP_CONCAT( pps_month) as scheds,
+                GROUP_CONCAT( pps_quarter) as scheds,
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
                 ROUND((ppmp_budget/tot_budget.tot_qty),2) as item_cost,
@@ -365,9 +365,9 @@ class Purchased_request_model extends CI_Model
 
         if($quarter){
             $q = (($quarter-1) * 3) + 1;
-            $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+            $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
         }else{
-            $this->db->where_in("pps_month", array(0));
+            $this->db->where_in("pps_quarter", array(0));
         }
 
         $office = ($department) ? $department : 0;

@@ -91,6 +91,8 @@
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/jquery.maskedinput.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.easyui.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.edatagrid.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('assets/js/plugins/datagrid-groupview.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('assets/js/plugins/datagrid-detailview.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/easyloader.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/accounting.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/router.js') ?>"></script>

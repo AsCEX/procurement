@@ -75,7 +75,7 @@ var categories = {
                     }
                 ],
                 pagination:true,
-                pageSize:10,
+                pageSize:30,
                 rownumbers:true,
                 fitColumns:"true",
                 singleSelect:"true",

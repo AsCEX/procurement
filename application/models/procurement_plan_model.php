@@ -23,7 +23,7 @@ class Procurement_plan_model extends CI_Model
         $this->db->select("*,
             unit_name,
             COALESCE(sum(pps_value), 0) as qty,
-            GROUP_CONCAT( pps_month) as scheds,
+            GROUP_CONCAT( pps_quarter) as scheds,
             GROUP_CONCAT( pps_value) as sched_values
         ");
 
@@ -53,7 +53,7 @@ class Procurement_plan_model extends CI_Model
                 ppmp_budget,
                 unit_name,
                 COALESCE(sum(pps_value), 0) as qty,
-                GROUP_CONCAT( pps_month) as scheds,
+                GROUP_CONCAT( pps_quarter) as scheds,
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
                 FORMAT((ppmp_budget/tot_budget.tot_qty), 2) as cost_per_qty,
@@ -73,8 +73,6 @@ class Procurement_plan_model extends CI_Model
 
 
 
-        $this->db->where("ppmp_id", $id);
-
         if($where['office']){
             $office = ($where['office']) ? $where['office'] : 0;
             $this->db->where("ppmp_office_id" , $office);
@@ -82,7 +80,7 @@ class Procurement_plan_model extends CI_Model
 
         if($where['quarter']){
             $q = (($where['quarter']-1) * 3) + 1;
-            $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+            $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
         }
 
 
@@ -93,7 +91,19 @@ class Procurement_plan_model extends CI_Model
         return $rs->row();
     }
 
-    public function getLimitProcurementPlan($pr_id = null, $where = array(), $curPage = 1, $rowsPerPage = 10){
+    public function getProcurementSchedule($ppmp_id = null){
+
+        $sql = "SELECT * FROM tbl_procurement_plan_schedules WHERE pps_ppmp_id = ?";
+
+        $query = $this->db->query($sql, array($ppmp_id));
+
+        $rs = $query->result_array();
+
+        return $rs;
+
+    }
+
+    public function getLimitProcurementPlan($pr_id = null, $where = array(), $curPage = 1, $rowsPerPage = 25){
 
 
         $fields = ($pr_id) ? "IF(pri_id,'checked','') as pri_chk," : "";
@@ -108,7 +118,7 @@ class Procurement_plan_model extends CI_Model
                 ppmp_budget,
                 unit_name,
                 COALESCE(sum(pps_value), 0) as qty,
-                GROUP_CONCAT( pps_month) as scheds,
+                GROUP_CONCAT( pps_quarter) as scheds,
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
                 FORMAT((ppmp_budget/tot_budget.tot_qty), 2) as cost_per_qty,
@@ -131,7 +141,7 @@ class Procurement_plan_model extends CI_Model
 
         if(isset($where['quarter'])){
             $q = (($where['quarter']-1) * 3) + 1;
-            $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+            $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
         }
 
         if(isset($where['office'])){
@@ -170,7 +180,7 @@ class Procurement_plan_model extends CI_Model
                 ppmp_budget,
                 unit_name,
                 COALESCE(sum(pps_value), 0) as qty,
-                GROUP_CONCAT( pps_month) as scheds,
+                GROUP_CONCAT( pps_quarter) as scheds,
                 GROUP_CONCAT( pps_value) as sched_values,
                 tot_budget.tot_qty,
                 FORMAT((ppmp_budget/tot_budget.tot_qty), 2) as cost_per_qty,
@@ -193,9 +203,9 @@ class Procurement_plan_model extends CI_Model
 
         if($where['quarter']){
             $q = (($where['quarter']-1) * 3) + 1;
-            $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+            $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
         }else{
-            $this->db->where_in("pps_month", array(0));
+            $this->db->where_in("pps_quarter", array(0));
         }
 
         $office = ($where['office']) ? $where['office'] : 0;
@@ -236,7 +246,7 @@ class Procurement_plan_model extends CI_Model
             ppmp_budget,
             unit_name,
             COALESCE(sum(pps_value), 0) as qty,
-            GROUP_CONCAT( pps_month) as scheds,
+            GROUP_CONCAT( pps_quarter) as scheds,
             GROUP_CONCAT( pps_value) as sched_values,
             tot_budget.tot_qty,
             (ppmp_budget/tot_budget.tot_qty) as cost_per_qty
@@ -245,7 +255,7 @@ class Procurement_plan_model extends CI_Model
         $q = (($quarter-1) * 3) + 1;
 
         $this->db->where("ppmp_office_id" , $office_id);
-        $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+        $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
 
         if($ppmp_id){
             $this->db->where("ppmp_id", $ppmp_id);
@@ -290,32 +300,37 @@ class Procurement_plan_model extends CI_Model
             $ppmp = $this->db->insert_id();
         }
 
-        $scheds = explode(",",rtrim($data['schedules'], ','));
+//        $scheds = explode(",",rtrim($data['schedules'], ','));
+        $scheds = $data['schedules'];
 
         $pps = array();
-        foreach($scheds as $key=>$sched) {
+       /* foreach($scheds as $key=>$sched) {
             $temp = explode(":", $sched);
-            $pps[$month[strtolower($temp[0])]] = $temp[1];
-        }
+            $pps[$key] = $temp[1];
+        }*/
 
-        foreach($month as $m){
+        foreach($scheds as $key=>$m){
 
             $s = array(
                 'pps_ppmp_id'  => $ppmp,
-                'pps_month' => $m,
-                'pps_value' => (isset($pps[$m])) ? $pps[$m] : 0
+                'pps_quarter' => $key + 1,
+                'pps_value' => $m
             );
 
             // if has ppmp_id and has changes on specific schedule
-            if($id && isset($pps[$m]) ){
-                $this->db->where('pps_month', $m);
+            /*if($id && isset($pps[$m]) ){
+                $this->db->where('pps_quarter', $m);
                 $this->db->where('pps_ppmp_id', $ppmp);
                 $this->db->update($this->procurement_schedules_table, $s);
-            }
+            }*/
 
             // if no ppmp_id, insert
             if(!$id){
                 $this->db->insert($this->procurement_schedules_table, $s);
+            }else{
+                $this->db->where('pps_quarter', $key+1);
+                $this->db->where('pps_ppmp_id', $ppmp);
+                $this->db->update($this->procurement_schedules_table, $s);
             }
 
 
@@ -335,7 +350,7 @@ class Procurement_plan_model extends CI_Model
         );
 
         $this->db->where('pps_ppmp_id', $ppmp_id);
-        $this->db->where_in("pps_month", array($q, $q+1, $q+2));
+        $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
 
         $this->db->update($this->procurement_schedules_table, $update);
     }

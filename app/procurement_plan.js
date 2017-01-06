@@ -16,10 +16,35 @@ var procurement_plan = {
             textField: 'value',
             method: 'get',
             prompt: 'Select Units',
-            onChange: function () {
+            onChange: function (newValue,oldValue) {
                 //alert("SDFLJKSDJF");
             }
         })
+
+        $('#ppmp_category').combobox({
+            required: true,
+            editable: true,
+            url: site_url + 'categories/getCategories',
+            valueField: 'name',
+            textField: 'value',
+            method: 'get',
+            prompt: 'Select Category',
+            onChange: function (newValue,oldValue) {
+
+            },
+            onLoadSuccess: function(){
+                tb = $("#ppmp_category").combobox('textbox');
+                tb.bind('blur',function(e){
+
+                    var v = $("#ppmp_category").combobox('getValue');
+
+                    if(isNaN(v)){
+                        $("#ppmp_category").combobox('setValue', '');
+                    }
+                });
+            }
+        })
+
     },
 
     datagrid: function(){
@@ -68,21 +93,21 @@ var procurement_plan = {
                                 return accounting.formatMoney(row.ppmp_budget, "");
                             }
                         },
-                        {field:'',title:'Schedule',width:'50%',colspan:12}
+                        {field:'',title:'Schedule',width:'50%',colspan:4}
                     ],
                     [
-                        {field:'sched_1',title:'Jan',width:10,align:'center'},
-                        {field:'sched_2',title:'Feb',width:10,align:'center'},
-                        {field:'sched_3',title:'Mar',width:10,align:'center'},
-                        {field:'sched_4',title:'Apr',width:10,align:'center'},
-                        {field:'sched_5',title:'May',width:10,align:'center'},
+                        {field:'sched_1',title:'Jan-Mar',width:10,align:'center'},
+                        {field:'sched_2',title:'Apr-Jun',width:10,align:'center'},
+                        {field:'sched_3',title:'Jul-Sep',width:10,align:'center'},
+                        {field:'sched_4',title:'Oct-Dec',width:10,align:'center'},
+                        /*{field:'sched_5',title:'May',width:10,align:'center'},
                         {field:'sched_6',title:'Jun',width:10,align:'center'},
                         {field:'sched_7',title:'Jul',width:10,align:'center'},
                         {field:'sched_8',title:'Aug',width:10,align:'center'},
                         {field:'sched_9',title:'Sep',width:10,align:'center'},
                         {field:'sched_10',title:'Oct',width:10,align:'center'},
                         {field:'sched_11',title:'Nov',width:10,align:'center'},
-                        {field:'sched_12',title:'Dec',width:10,align:'center'},
+                        {field:'sched_12',title:'Dec',width:10,align:'center'},*/
                     ]
                 ],
             }).datagrid('clientPaging');
@@ -129,7 +154,7 @@ var procurement_plan = {
         $('#ppmp-fm').form('submit',{
             url: site_url + 'procurement_plan/saveProcurementPlan',
             onSubmit: function(){
-
+/*
                 var s = '';
                 var settings = $('#pg-setting').propertygrid('getData');
                 var rows = settings.rows;
@@ -137,7 +162,7 @@ var procurement_plan = {
                     s += rows[i].name + ':' + rows[i].value + ',';
                 }
 
-                $(this).find('#schedules').val(s);
+                $(this).find('#schedules').val(s);*/
 
                 return $(this).form('validate');
             },

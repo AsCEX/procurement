@@ -20,6 +20,7 @@ class procurement_plan extends CI_Controller {
     public function saveProcurementPlan(){
 
         $post = $_POST;
+
         $ppmp_id = $this->ppmp_model->save($post, $post['ppmp_id']);
 
 
@@ -57,12 +58,12 @@ class procurement_plan extends CI_Controller {
             $sched_values = explode(",", $temp['sched_values']);
 
             $temp['id'] = $p->ppmp_id;
-            for($i=1;$i<=12;$i++){
+            for($i=1;$i<=4;$i++){
                 $temp['sched_' . $i ] = 0;
             }
 
             foreach($scheds as $key=>$sched ){
-                $temp['sched_' . $sched] = $sched_values[$key];
+                $temp['sched_' . $sched] = number_format($sched_values[$key], 2);
             }
 
             $new_ppmp[] = $temp;
@@ -81,8 +82,10 @@ class procurement_plan extends CI_Controller {
 
     public function dialog($ppmp_id = 0){
         $ppmp = $this->ppmp_model->getProcurementPlanById($ppmp_id);
+        $ppmp_sched = $this->ppmp_model->getProcurementSchedule($ppmp_id);
 
         $data['ppmp'] = ($ppmp) ? $ppmp : array();
+        $data['ppmp_sched'] = ($ppmp_sched) ? $ppmp_sched : array();
         $data['ppmp_id'] = $ppmp_id;
 
         $this->load->view('procurement_plans/dialog/add', $data);

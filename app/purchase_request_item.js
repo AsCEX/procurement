@@ -22,7 +22,7 @@ var request_items = {
                                 }
 
                             }
-                        },
+                        },/*
                         {
                             text: 'Done',
                             iconCls: 'icon-add',
@@ -30,33 +30,39 @@ var request_items = {
                                 request_items.endEditing();
 
                             }
-                        },
+                        },*/
                     ],
                     pagination:"true",
                     pageSize:10,
                     rownumbers:"true",
-                    fitColumns:"true",
+                    fitColumns:false,
                     nowrap: false,
                     fit: true,
-                    singleSelect:"true",
+                    singleSelect:true,
+                    emptyMsg: "No Records",
+                    /*view: groupview,
+                    groupField:'cat_description',
+                    groupFormatter:function(value,rows){
+                        return value;
+                    },*/
                     columns:[
                         [
-                            {field:'ppmp_code',title:'Code',width:'4%'},
-                            {field:'cat_description',title:'Category',width:'20%'},
-                            {field:'description',title:'Description',width:'20%'},
-                            {field:'qty',title:'Qty',width:'10%',align:'right',editor:{
+                            //{field:'ppmp_code',title:'Code',width:'8%'},
+                            {field:'qty',title:'Qty',width:'10%',align:'center',editor:{
                                 type: 'numberbox',options:{
-                                    precision: 2,
+                                    precision: 0,
                                 }
                             }},
                             {field:'unit_name',title:'Unit',width:'10%'},
-                            {field:'item_cost',title:'Item Cost',width:'10%',align:'right',editor:{
+                            //{field:'cat_description',title:'Category',width:'20%'},
+                            {field:'description',title:'Description',width:'50%'},
+                            {field:'item_cost',title:'Item Cost',width:'13%',align:'right',editor:{
                                 type: 'numberbox',options:{
                                     precision: 2,
                                 }
                             }},
-                            {field:'tot_cost',title:'Cost',width:'10%',align:'right'},
-                            {field:'action',title:'Action',width:'12%',align:'center',formatter: function(value,row,index){
+                            {field:'tot_cost',title:'Cost',width:'13%',align:'right'}
+                            /*{field:'action',title:'Action',width:'12%',align:'center',formatter: function(value,row,index){
 
                                 if (row.editing){
                                     var s = '<a href="javascript:void(0)" onclick="request_items.saverow(this)">Save</a> ';
@@ -68,7 +74,8 @@ var request_items = {
                                     return e+d;
                                 }
 
-                            }}
+                                }
+                            }*/
                         ]
                     ],
 

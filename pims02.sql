@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50626
 File Encoding         : 65001
 
-Date: 2016-08-26 07:15:54
+Date: 2017-01-06 21:49:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -74,19 +74,19 @@ CREATE TABLE `tbl_categories` (
 -- ----------------------------
 -- Records of tbl_categories
 -- ----------------------------
-INSERT INTO `tbl_categories` VALUES ('1', null, 'Agricultural Supplies');
-INSERT INTO `tbl_categories` VALUES ('2', null, 'Animal & Zoological Supplies');
-INSERT INTO `tbl_categories` VALUES ('3', null, 'Construction Materials');
-INSERT INTO `tbl_categories` VALUES ('4', null, 'Drugs & Medicines');
-INSERT INTO `tbl_categories` VALUES ('5', null, 'Food & Non-Food Supplies');
-INSERT INTO `tbl_categories` VALUES ('6', null, 'Gasoline, Oils & Lubricants');
-INSERT INTO `tbl_categories` VALUES ('7', null, 'Livestock');
-INSERT INTO `tbl_categories` VALUES ('8', null, 'Medical & Dental');
-INSERT INTO `tbl_categories` VALUES ('9', null, 'Military and Police Supplies');
-INSERT INTO `tbl_categories` VALUES ('10', null, 'Office Supplies');
-INSERT INTO `tbl_categories` VALUES ('11', null, 'Other Supplies');
-INSERT INTO `tbl_categories` VALUES ('12', null, 'Spare Parts');
-INSERT INTO `tbl_categories` VALUES ('13', null, 'Textbooks and Instructional Materials');
+INSERT INTO `tbl_categories` VALUES ('1', '1', 'Office Supplies');
+INSERT INTO `tbl_categories` VALUES ('3', '3', 'Animal & Zoological Supplies');
+INSERT INTO `tbl_categories` VALUES ('4', '4', 'Food & Non-Food Supplies');
+INSERT INTO `tbl_categories` VALUES ('5', '5', 'Drugs & Medicines');
+INSERT INTO `tbl_categories` VALUES ('6', '6', 'Medical & Dental');
+INSERT INTO `tbl_categories` VALUES ('7', '7', 'Gasoline, Oils & Lubricants');
+INSERT INTO `tbl_categories` VALUES ('8', '8', 'Agricultural Supplies');
+INSERT INTO `tbl_categories` VALUES ('9', '9', 'Textbooks and Instructional Materials');
+INSERT INTO `tbl_categories` VALUES ('10', '10', 'Military and Police Supplies');
+INSERT INTO `tbl_categories` VALUES ('11', '11', 'Other Supplies');
+INSERT INTO `tbl_categories` VALUES ('12', '12', 'Spare Parts');
+INSERT INTO `tbl_categories` VALUES ('13', '13', 'Construction Materials');
+INSERT INTO `tbl_categories` VALUES ('14', '14', 'Livestock');
 
 -- ----------------------------
 -- Table structure for `tbl_employees`
@@ -158,6 +158,46 @@ CREATE TABLE `tbl_inventories` (
 
 -- ----------------------------
 -- Records of tbl_inventories
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tbl_inventories2`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_inventories2`;
+CREATE TABLE `tbl_inventories2` (
+  `i_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `i_office_id` bigint(20) DEFAULT NULL,
+  `i_remarks` text,
+  `i_received_from` bigint(20) DEFAULT NULL,
+  `i_received_from_date` date DEFAULT NULL,
+  `i_received_by` bigint(20) DEFAULT NULL,
+  `i_received_by_date` date DEFAULT NULL,
+  PRIMARY KEY (`i_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_inventories2
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `tbl_inventory_details`
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_inventory_details`;
+CREATE TABLE `tbl_inventory_details` (
+  `id_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id_inv_id` bigint(20) DEFAULT NULL,
+  `id_unit` bigint(20) DEFAULT NULL,
+  `id_date_acquired` date DEFAULT NULL,
+  `id_description` text,
+  `id_unit_cost` decimal(11,2) DEFAULT NULL,
+  `id_category` bigint(20) DEFAULT NULL,
+  `id_account_classification_no` varchar(100) DEFAULT NULL,
+  `id_property_no` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- ----------------------------
+-- Records of tbl_inventory_details
 -- ----------------------------
 
 -- ----------------------------
@@ -246,8 +286,8 @@ CREATE TABLE `tbl_procurement_plans` (
 -- ----------------------------
 -- Records of tbl_procurement_plans
 -- ----------------------------
-INSERT INTO `tbl_procurement_plans` VALUES ('1', '420', 'asdfasf', null, '1', '12000.00', '1', '1', '1', '2016-08-07 00:00:00', '1', null, null, null, null);
-INSERT INTO `tbl_procurement_plans` VALUES ('2', '421', 'AVE AVE', null, '1', '16000.00', '2', '1', '1', '2016-08-07 00:00:00', '1', null, null, null, null);
+INSERT INTO `tbl_procurement_plans` VALUES ('1', '761', 'Diesel', null, '5', '280000.00', '6', '1', '1', '2017-01-04 00:00:00', '1', null, null, null, null);
+INSERT INTO `tbl_procurement_plans` VALUES ('2', '123', 'sdfs', null, '1', '1231.00', '1', '1', '1', '2017-01-04 00:00:00', '1', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `tbl_procurement_plan_schedules`
@@ -256,7 +296,7 @@ DROP TABLE IF EXISTS `tbl_procurement_plan_schedules`;
 CREATE TABLE `tbl_procurement_plan_schedules` (
   `pps_id` int(11) NOT NULL AUTO_INCREMENT,
   `pps_ppmp_id` int(11) DEFAULT NULL,
-  `pps_month` int(11) DEFAULT NULL,
+  `pps_quarter` int(11) DEFAULT NULL,
   `pps_value` double DEFAULT NULL,
   `pps_pri_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`pps_id`)
@@ -265,30 +305,14 @@ CREATE TABLE `tbl_procurement_plan_schedules` (
 -- ----------------------------
 -- Records of tbl_procurement_plan_schedules
 -- ----------------------------
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('1', '1', '1', '3', '22');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('2', '1', '2', '0', '22');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('3', '1', '3', '0', '22');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('4', '1', '4', '3', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('5', '1', '5', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('6', '1', '6', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('7', '1', '7', '3', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('8', '1', '8', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('9', '1', '9', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('10', '1', '10', '3', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('11', '1', '11', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('12', '1', '12', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('13', '2', '1', '4', '21');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('14', '2', '2', '0', '21');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('15', '2', '3', '0', '21');
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('16', '2', '4', '4', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('17', '2', '5', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('18', '2', '6', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('19', '2', '7', '4', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('20', '2', '8', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('21', '2', '9', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('22', '2', '10', '4', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('23', '2', '11', '0', null);
-INSERT INTO `tbl_procurement_plan_schedules` VALUES ('24', '2', '12', '0', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('1', '1', '1', '2000', '1');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('4', '1', '2', '2000', '1');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('7', '1', '3', '2000', '1');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('10', '1', '4', '1000', null);
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('13', '2', '1', '10', '5');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('16', '2', '2', '30', '5');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('19', '2', '3', '20', '5');
+INSERT INTO `tbl_procurement_plan_schedules` VALUES ('22', '2', '4', '50', null);
 
 -- ----------------------------
 -- Table structure for `tbl_purchased_orders`
@@ -357,12 +381,14 @@ CREATE TABLE `tbl_purchase_requests` (
   `pr_modified_date` date DEFAULT NULL,
   PRIMARY KEY (`pr_id`),
   UNIQUE KEY `pr_id` (`pr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_purchase_requests
 -- ----------------------------
-INSERT INTO `tbl_purchase_requests` VALUES ('1', '1', '', '0000-00-00', '', '0000-00-00', '1', '112saf', '1', null, null, null, 'rtete', null, '2016-08-07', null, '2016-08-07');
+INSERT INTO `tbl_purchase_requests` VALUES ('1', '1', '', '0000-00-00', '', '0000-00-00', '1', 'fasf', '1', null, null, null, 'dsgs', null, '2017-01-04', null, '2017-01-05');
+INSERT INTO `tbl_purchase_requests` VALUES ('2', '1', '', '0000-00-00', '', '0000-00-00', '1', 'fasf', '1', null, null, null, 'dsgs', null, '2017-01-04', null, null);
+INSERT INTO `tbl_purchase_requests` VALUES ('3', '1', '', '0000-00-00', '', '0000-00-00', '1', 'test', '1', null, null, null, 'test', null, '2017-01-05', null, '2017-01-05');
 
 -- ----------------------------
 -- Table structure for `tbl_purchase_request_items`
@@ -376,13 +402,15 @@ CREATE TABLE `tbl_purchase_request_items` (
   `pri_description` text,
   `pri_cost` decimal(11,2) DEFAULT NULL,
   PRIMARY KEY (`pri_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_purchase_request_items
 -- ----------------------------
-INSERT INTO `tbl_purchase_request_items` VALUES ('21', '1', '2', '3.50', 'AVE AVE', '500.00');
-INSERT INTO `tbl_purchase_request_items` VALUES ('22', '1', '1', '5.00', 'asdfasf', '700.00');
+INSERT INTO `tbl_purchase_request_items` VALUES ('1', '1', '1', '3000.00', 'Diesel', '40.00');
+INSERT INTO `tbl_purchase_request_items` VALUES ('2', '2', '1', '3000.00', 'Diesel', '40.00');
+INSERT INTO `tbl_purchase_request_items` VALUES ('4', '3', '1', '6000.00', 'Diesel', '40.00');
+INSERT INTO `tbl_purchase_request_items` VALUES ('5', '1', '2', '60.00', 'sdfs', '11.19');
 
 -- ----------------------------
 -- Table structure for `tbl_purchase_request_item_details`
@@ -462,7 +490,7 @@ CREATE TABLE `tbl_units` (
   `unit_id` int(11) NOT NULL AUTO_INCREMENT,
   `unit_name` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`unit_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tbl_units
@@ -471,6 +499,7 @@ INSERT INTO `tbl_units` VALUES ('1', 'unit');
 INSERT INTO `tbl_units` VALUES ('2', 'lot');
 INSERT INTO `tbl_units` VALUES ('3', 'pcs');
 INSERT INTO `tbl_units` VALUES ('4', 'sets');
+INSERT INTO `tbl_units` VALUES ('5', 'Liter');
 
 -- ----------------------------
 -- Table structure for `tbl_users`
