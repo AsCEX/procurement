@@ -49,6 +49,15 @@ class employees extends CI_Controller {
         }
     }
 
+    public function checkUsername() {
+
+        $username = $this->employees_model->checkUsername( $_POST['username'] );
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode( array( 'result' => $username ) ) );
+    }
+
     public function dialog($emp_id = 0){
 
         $employee = $this->employees_model->getEmployeeById($emp_id);

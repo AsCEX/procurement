@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
+define("DEFAULT_PASSWORD", 12345678);
+
 class Employees_model extends CI_Model
 {
     /**
@@ -82,7 +84,7 @@ class Employees_model extends CI_Model
             'emp_ui_id'         => $ui_id,
             'emp_position_id'   => $data['emp_position_id'],
             'emp_username'      => $data['emp_username'],
-            'emp_password'      => $data['emp_password'],
+            'emp_password'      => md5(DEFAULT_PASSWORD),
             'emp_status'        => 1
         );
 
@@ -143,6 +145,14 @@ class Employees_model extends CI_Model
 
         if ( $this->db->affected_rows() > 0 ) return TRUE;
         else return FALSE;
+    }
+
+    public function checkUsername( $username ) {
+
+        $this->db->like('emp_username', $username, 'after');
+        $res = $this->db->get($this->employees_table);
+
+        return $res->result();
     }
 
 
