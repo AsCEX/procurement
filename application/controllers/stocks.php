@@ -57,6 +57,31 @@ class Stocks extends MY_Controller {
         $this->load->view('stocks/dialog/add', $data);
     }
 
+    public function getStocksComboBox( $stock_id = null ) {
+
+        $stocks = $this->stocks_model->getStocks();
+
+        $stock_data = array();
+
+        foreach ($stocks as $stock) {
+
+            $temp = array(
+                'name' => $stock->stock_id,
+                'value' => $stock->stock_description
+            );
+
+            if ($stock->stock_id == $stock_id) {
+                $temp['selected'] = true;
+            }
+
+            $stock_data[] = $temp;
+        }
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($stock_data) );
+    }
+
 }
 
 ?>

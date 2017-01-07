@@ -56,7 +56,7 @@
                 <div onclick="javascript:routes.categories()">Categories</div>
                 <div onclick="javascript:routes.stocks()">Stocks</div>
                 <div class="menu-sep"></div>
-                <div onclick="javascript:routes.inventories()" >Item Lists</div>
+                <div onclick="javascript:routes.items()" >Item Lists</div>
             </div>
 
 
@@ -106,6 +106,7 @@
 <script type="text/javascript" src="<?php echo site_url('app/stocks.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/units.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/funds.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('app/items.js') ?>"></script>
 
 
 

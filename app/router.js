@@ -50,6 +50,10 @@ var routes = {
     // Units
     units: function() {
         $('#main-content').panel('refresh', site_url + 'units');
+    },
+
+    items: function() {
+        $('#main-content').panel('refresh', site_url + 'items');
     }
 
 }

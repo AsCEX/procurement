@@ -70,6 +70,14 @@ class Stocks_model extends CI_Model {
         if ( $this->db->delete( $this->stocks_tbl ) ) return TRUE;
         else return FALSE;
     }
+
+    public function getStocks($id = null){
+
+        $this->db->select("*");
+        $rs = $this->db->get($this->stocks_tbl);
+
+        return $rs->result();
+    }
 }
 
 ?>
