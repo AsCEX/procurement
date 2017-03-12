@@ -3,7 +3,7 @@
 
     <div id="cc" class="easyui-layout" fit="true" style="height:345px;">
         <div data-options="region:'center',split:true">
-            <table id="ppmp_pr" title="" class="easyui-datagrid" fit="true"></table>
+            <table id="ppmp_pr" title="" fit="true"></table>
         </div>
     </div>
 

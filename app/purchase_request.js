@@ -1,6 +1,7 @@
 
 var purchase_request = {
 
+    pri_id: 0,
     init: function(){
         this.datagrid();
         this.dialog();
@@ -116,8 +117,27 @@ var purchase_request = {
                 $("#pr_sai_date").textbox('textbox').mask("99/99/9999",{placeholder:"mm/dd/yyyy"});
             }
         });
-        $("#pr-ppmp-dlg").dialog({
+
+        $("#edit-pr-item-details-dlg").dialog({
             resizable: false,
+            modal: true,
+            closed: true,
+            buttons:[{
+                id: 'save_pri',
+                text:'Save',
+                handler:function(){
+                    purchase_request.save_pr_item();
+                }
+            },{
+                text:'Close',
+                handler:function(){
+                    $("#edit-pr-item-details-dlg").dialog('close');
+                }
+            }]
+        });
+
+        $("#pr-ppmp-dlg").dialog({
+            resizable: true,
             modal: true,
             closed: true,
             buttons:[{
@@ -175,7 +195,8 @@ var purchase_request = {
             success: function(result){
 
                 $.messager.alert('My Title','Successful', 'info', function(){
-                    //$('#dlg').dialog('close');
+
+                    $("#dlg").dialog('close');
                     $('#pr-dg').datagrid('reload');    // reload the user data
                     $('#pr-items').datagrid('reload');    // reload the user data
                 });
@@ -215,7 +236,40 @@ var purchase_request = {
                 }
             });
         }
-}
+    },
+
+    editDetails: function(menu){
+
+        pri = menu;
+        self = this;
+        $('#edit-pr-item-details-dlg').dialog('open')
+            .dialog('refresh', site_url + 'purchase_request/editItemDetails/' + pri)
+            .dialog('center')
+            .dialog('setTitle','Edit Item Details')
+    },
+
+    save_pr_item: function(){
+
+
+        $('#save_pri').linkbutton('disable');
+        $('#pr-item-detail-fm').form('submit',{
+            url: site_url + 'purchase_request/save_pri',
+            onSubmit: function(){
+                return $(this).form('validate');
+            },
+            success: function(result){
+
+                $.messager.alert('My Title','Successful', 'info', function(){
+
+
+                    $("#pr_items").datagrid('reload')
+                    $('#edit-pr-item-details-dlg').dialog('close')
+                });
+
+                $('#save_pri').linkbutton('enable');
+            }
+        });
+    }
 
 
 

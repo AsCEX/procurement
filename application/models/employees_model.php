@@ -82,6 +82,7 @@ class Employees_model extends CI_Model
 
         $data = array(
             'emp_ui_id'         => $ui_id,
+            'emp_department_id'   => $data['emp_department_id'],
             'emp_position_id'   => $data['emp_position_id'],
             'emp_username'      => $data['emp_username'],
             'emp_password'      => md5(DEFAULT_PASSWORD),

@@ -8,7 +8,7 @@ class Auth_model extends CI_Model
      *
      * @var array
      **/
-    public $tbl_users = "tbl_users";
+    public $tbl_users = "tbl_employees";
 
     public function __construct()
     {
@@ -17,8 +17,10 @@ class Auth_model extends CI_Model
 
     public function checkUserLogin($username = "", $password = ""){
 
-        $this->db->where('u_username', $username);
-        $this->db->where('u_password', $password);
+        $this->db->where('emp_username', $username);
+        $this->db->where('emp_password', $password);
+
+        $this->db->join('tbl_user_informations', 'ui_id = emp_ui_id', 'left');
 
         $rs = $this->db->get($this->tbl_users);
 

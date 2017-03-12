@@ -61,6 +61,41 @@ class Purchase_request extends MY_Controller {
         $items = array();
         if($pr_id)
             $items = $this->pr_model->getRequestItemsById($pr_id);
+/*
+        $items[] = array(
+            "ppmp_id" => 2,
+            "pri_id" => 5,
+            "pri_pr_id" => 1,
+            "ppmp_code" => 123,
+            "cat_description" => 'Office Supplies',
+            "description" => 'sdfs',
+            "qty" => '',
+            "limit_qty" => 60,
+            "item_cost" => 11.19,
+            "tot_cost" => '',
+            "limit_budget" => 671.45,
+            "unit_name" => '',
+            "cost" => 11.19,
+            "max_qty" => 110,
+            "ppmp_budget" => 1231.00,
+        );
+        $items[] = array(
+            "ppmp_id" => 2,
+            "pri_id" => 5,
+            "pri_pr_id" => 1,
+            "ppmp_code" => 123,
+            "cat_description" => 'Office Supplies',
+            "description" => 'sdfs',
+            "qty" => '',
+            "limit_qty" => 60,
+            "item_cost" => 11.19,
+            "tot_cost" => '',
+            "limit_budget" => 671.45,
+            "unit_name" => '',
+            "cost" => 11.19,
+            "max_qty" => 110,
+            "ppmp_budget" => 1231.00,
+        );*/
 
         $resultSet['total'] = count($items);
         $resultSet['rows'] = $items;
@@ -141,7 +176,6 @@ class Purchase_request extends MY_Controller {
             $items = array();
         }
 
-        pre_print($items);
         $pri_ids = array();
 
         foreach($items as $item){
@@ -175,6 +209,34 @@ class Purchase_request extends MY_Controller {
             foreach($deleted_pri as $pri_id){
                 $this->pr_model->deleteItem($pri_id);
             }
+        }
+    }
+
+    public function editItemDetails($pri_id=null){
+        $data = array();
+
+        $pr = $this->pr_model->getItemDetails($pri_id);
+
+        $data['pri'] = ($pr) ? reset($pr) : array();
+
+        $this->load->view('purchase_request/dialog/edit-pr-item-details', $data);
+    }
+
+
+    public function save_pri() {
+
+        $post = $_POST;
+
+        pre_print($post);
+        $post['pri_description'] = nl2br($post['pri_description']);
+
+        pre_print($post);
+        $emp_id = $this->pr_model->saveItems($post, $post['pri_id']);
+
+        if ( $emp_id ) {
+            $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode( array( 'status' => 'success', 'last_id' => $emp_id ) ) );
         }
     }
 }

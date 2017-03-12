@@ -47,3 +47,9 @@ a{
     font-weight: normal!important;
     color: #504b4b;
 }
+
+
+.datagrid-context-menu{
+    background: #d5ffd7!important;
+    color: #040404!important;
+}

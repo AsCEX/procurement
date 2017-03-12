@@ -19,7 +19,7 @@
             </div>
             <div class="fitem">
                 <label>Ext. Name:</label>
-                <input name="ui_extname" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_extname) ? $employee->ui_extname : ""; ?>">
+                <input name="ui_extname" class="easyui-textbox" align="right" value="<?php echo isset($employee->ui_extname) ? $employee->ui_extname : ""; ?>">
             </div>
             <div class="fitem">
                 <label>Address:</label>
@@ -30,7 +30,26 @@
                 <input name="ui_birthdate" id="emp_ui_birthdate" class="easyui-textbox" required="true" align="right" value="<?php echo isset($employee->ui_birthdate) ? $employee->ui_birthdate : ""; ?>">
             </div>
         </div>
-        <div data-options="region:'east',title:'Employee Info',split:false,hideCollapsedContent:false" class="emp-info" style="padding:5px;width:50%;">
+        <div data-options="region:'east',title:'Employee Info',split:false,hideCollapsedContent:false" class="emp-info" style="padding:5px;width:75%;">
+            <div class="fitem" id="fitem-emp-username">
+                <label>Username:</label>
+                <span>--------</span>
+                <input name="emp_username" type="hidden" value="<?php echo isset($employee->emp_username) ? $employee->emp_username : ""; ?>">
+            </div>
+
+            <div class="fitem">
+                <label>Office:</label>
+                <select class="easyui-combobox" editable="false" name="emp_department_id" id="emp_department_id" style="width:350px"
+                        url="<?php echo site_url('offices/getComboboxOffices'); ?>/<?php echo isset($employee->emp_department_id) ? $employee->emp_department_id : ''; ?>"
+                        method="get"
+                        valueField="name"
+                        prompt="Select Office"
+                        textField="value"
+                        required="true">
+                </select>
+                <a href="javascript:offices.quickMenu('ppmp_office_id');" id="quick-menu" class="offices"><i class="fa fa-external-link-square"></i></a>
+            </div>
+
             <div class="fitem">
                 <label>Position:</label>
                 <select class="easyui-combobox" editable="false" name="emp_position_id" style="width:250px"
@@ -42,21 +61,12 @@
                         required="true">
                 </select>
             </div>
-            <div class="fitem" id="fitem-emp-username">
-                <label>Username:</label>
-                <span></span>
-                <input name="emp_username" type="hidden" value="<?php echo isset($employee->emp_username) ? $employee->emp_username : ""; ?>">
-            </div>
         </div>
     </div>
 
 </form>
 
-<style>
-    #fm-employees .fitem label { width: 122px; }
-    #fm-employees .fitem span.combo { width: 160px !important; }
-</style>
-
+<?php if(!isset($employee->emp_id)){ ?>
 <script>
     $(function(){
 
@@ -75,6 +85,8 @@
                 }
 
                 var username = firstname + lastname;
+                username = username.toLowerCase();
+
 
                 $.post( site_url + 'employees/checkUsername', { username: username }, function(response) {
 
@@ -96,3 +108,4 @@
         }
     });
 </script>
+<?php } ?>

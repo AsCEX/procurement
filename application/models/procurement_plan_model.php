@@ -350,7 +350,7 @@ class Procurement_plan_model extends CI_Model
         );
 
         $this->db->where('pps_ppmp_id', $ppmp_id);
-        $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
+        $this->db->where_in("pps_quarter",$q);
 
         $this->db->update($this->procurement_schedules_table, $update);
     }

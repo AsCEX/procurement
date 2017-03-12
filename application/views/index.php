@@ -20,7 +20,9 @@
     <script type="text/javascript">
         var site_url = "<?php echo site_url(); ?>";
     </script>
-
+<!--
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>-->
 </head>
 
 <body class="easyui-layout">
@@ -49,6 +51,7 @@
             <div id="mm1" style="width:250px;">
                 <div onclick="javascript:routes.procurement_plan()" >Procurement Plans</div>
                 <div onclick="javascript:routes.purchase_request()" >Purchase Requests</div>
+                <div onclick="javascript:routes.biddings()" >Biddings</div>
                 <div onclick="javascript:routes.underconstruction()" >Purchase Orders</div>
             </div>
 
@@ -93,10 +96,27 @@
 <script type="text/javascript" src="<?php echo site_url('assets/js/jquery.edatagrid.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/datagrid-groupview.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/datagrid-detailview.js') ?>"></script>
+<script type="text/javascript" src="<?php echo site_url('assets/js/plugins/jquery.pivotgrid.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/easyloader.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('assets/js/plugins/accounting.min.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/router.js') ?>"></script>
+<script>
 
+    $(function(){
+        $(document).on('focus',"input[type=text]",function(){
+            $(this).select();
+        });
+
+        $(document).on('focus','.textbox-text', function(){
+            var hasDate = $(this).parent().siblings('.date-masked').length;
+            if(hasDate){
+                $(this).mask("9999-99-99");
+            }
+
+        });
+
+    });
+</script>
 
 <script type="text/javascript" src="<?php echo site_url('app/procurement_plan.js') ?>"></script>
 <script type="text/javascript" src="<?php echo site_url('app/purchase_request.js') ?>"></script>

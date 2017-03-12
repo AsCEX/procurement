@@ -175,11 +175,11 @@ class Purchased_request_model extends CI_Model
 
     public function getItemDetails($pri_id = null){
         $this->db->select("*");
-        $this->db->where('prid_pri_id', $pri_id);
-        $this->db->from($this->pr_item_details_tbl);
+        $this->db->where('pri_id', $pri_id);
+        $this->db->from('tbl_purchase_request_items');
         $rs = $this->db->get();
 
-        return $rs->result_array();
+        return $rs->result();
     }
 
 
@@ -213,21 +213,21 @@ class Purchased_request_model extends CI_Model
     public function getRequestItemsById($pr_id = 0){
 
         $sql = "SELECT
-                ppmp_id,
-                pri_id,
-                pri_pr_id,
-                ppmp_code,
-                cat_description,
-                pri_description as description,
-                pri_qty as qty,
-                limit_qty,
-                pri_cost as item_cost,
-                ROUND(pri_cost*pri_qty,2) as tot_cost,
-                ROUND((ppmp_budget/max_qty) * limit_qty, 2) as limit_budget,
-                unit_name,
-                pri_cost as cost,
-                max_qty,
-                ppmp_budget
+                    ppmp_id,
+                    pri_id,
+                    pri_pr_id,
+                    ppmp_code,
+                    cat_description,
+                    pri_description as description,
+                    pri_qty as qty,
+                    limit_qty,
+                    pri_cost as item_cost,
+                    ROUND(pri_cost*pri_qty,2) as tot_cost,
+                    ROUND((ppmp_budget/max_qty) * limit_qty, 2) as limit_budget,
+                    unit_name,
+                    pri_cost as cost,
+                    max_qty,
+                    ppmp_budget
                 FROM tbl_purchase_request_items
                 LEFT JOIN tbl_procurement_plan_schedules ON pri_id = pps_pri_id
                 LEFT JOIN tbl_procurement_plans ON pri_ppmp_id = ppmp_id
@@ -364,8 +364,8 @@ class Purchased_request_model extends CI_Model
 
 
         if($quarter){
-            $q = (($quarter-1) * 3) + 1;
-            $this->db->where_in("pps_quarter", array($q, $q+1, $q+2));
+//            $q = (($quarter-1) * 3) + 1;
+            $this->db->where_in("pps_quarter", array($quarter));
         }else{
             $this->db->where_in("pps_quarter", array(0));
         }
@@ -378,6 +378,8 @@ class Purchased_request_model extends CI_Model
         if($items){
             $this->db->where_not_in('ppmp_id', $items);
         }
+
+        $this->db->where('pps_pri_id IS NULL', null, false);
 
 
         $this->db->group_by("ppmp_id");

@@ -8,6 +8,11 @@ var routes = {
         $('#main-content').panel('refresh', site_url + 'purchase_request/dataGrid');
     },
 
+
+    biddings: function(){
+        $('#main-content').panel('refresh', site_url + 'bids/content');
+    },
+
     underconstruction: function(){
         $.messager.alert('Under Construction', 'This module is under construction', 'info');
     },

@@ -3,26 +3,26 @@
 
 <input type="hidden" name="ppmp_id" value="<?php echo ($ppmp_id) ? $ppmp_id : 0; ?>" />
 <div id="cc" class="easyui-layout" fit="true" style="height:450px;">
-    <div data-options="region:'east',title:'Schedules',split:true,hideCollapsedContent:false" style="width:50%;padding:5px;">
+    <div data-options="region:'east',title:'Schedules',split:true,hideCollapsedContent:false" style="width:30%;padding:5px;">
         <!--<table id="pg-setting" class="easyui-propertygrid" fit="true" border="false" sortable="false"
                toolbar="#tb-setting" showGroup="true">
         </table>-->
 
        <div class="fitem">
             <label>Quarter 1:</label>
-            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" style="text-align:right;" value="<?php echo isset($ppmp_sched[0]['pps_value']) ? $ppmp_sched[0]['pps_value'] : ""; ?>">
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" groupSeparator="," style="text-align:right;" value="<?php echo isset($ppmp_sched[0]['pps_value']) ? $ppmp_sched[0]['pps_value'] : ""; ?>">
         </div>
         <div class="fitem">
             <label>Quarter 2:</label>
-            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[1]['pps_value']) ? $ppmp_sched[1]['pps_value'] : ""; ?>">
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" groupSeparator="," align="right" value="<?php echo isset($ppmp_sched[1]['pps_value']) ? $ppmp_sched[1]['pps_value'] : ""; ?>">
         </div>
         <div class="fitem">
             <label>Quarter 3:</label>
-            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[2]['pps_value']) ? $ppmp_sched[2]['pps_value'] : ""; ?>">
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" groupSeparator="," align="right" value="<?php echo isset($ppmp_sched[2]['pps_value']) ? $ppmp_sched[2]['pps_value'] : ""; ?>">
         </div>
         <div class="fitem">
             <label>Quarter 4:</label>
-            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp_sched[3]['pps_value']) ? $ppmp_sched[3]['pps_value'] : ""; ?>">
+            <input name="schedules[]" class="easyui-numberbox" required="true" min="0" precision="2" groupSeparator="," align="right" value="<?php echo isset($ppmp_sched[3]['pps_value']) ? $ppmp_sched[3]['pps_value'] : ""; ?>">
         </div>
 
     </div>
@@ -49,14 +49,6 @@
             <label>Category:</label>
             <input id="ppmp_category" name="ppmp_category" value="<?php echo (isset($ppmp->ppmp_category_id) && $ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; ?>" style="width:250px"/>
 
-           <!-- <select class="easyui-combobox" editable="true" name="ppmp_category" id="ppmp_category" style="width:250px"
-                    url="<?php /*echo site_url('categories/getCategories'); */?>/<?php /*echo isset($ppmp->ppmp_category_id) ? $ppmp->ppmp_category_id : ''; */?>"
-                    method="get"
-                    valueField="name"
-                    prompt="Select Category"
-                    textField="value"
-                    required="true">
-            </select>-->
             <a href="javascript:categories.quickMenu('ppmp_category');" id="quick-menu" class="offices"><i class="fa fa-external-link-square"></i></a>
         </div>
 
@@ -73,7 +65,7 @@
 
         <div class="fitem">
             <label>Estimated Budget:</label>
-            <input name="ppmp_budget" class="easyui-numberbox" required="true" min="0" precision="2" align="right" value="<?php echo isset($ppmp->ppmp_budget) ? $ppmp->ppmp_budget : ""; ?>">
+            <input name="ppmp_budget" class="easyui-numberbox" required="true" min="0" precision="2" groupSeparator="," align="right" value="<?php echo isset($ppmp->ppmp_budget) ? $ppmp->ppmp_budget : ""; ?>">
         </div>
 
         <div class="fitem">
@@ -96,76 +88,5 @@
 
 
 <script>
-    $(function(){
-        $('#pg-setting').propertygrid({
-            url: site_url + 'procurement_plan/schedules/<?php echo $ppmp_id; ?>',
-            columns: [[
-                {field:'name',title:'Month',width:100,sortable:true},
-                {field:'value',title:'Quantity',width:100,resizable:false,align:'right',
-                    formatter:function(value){
-                        var s = '<div>';
-                        s += '<div style="float:right;width:18px;height:18px;background:'+value+'">&nbsp;</div>';
-                        s += value;
-                        s += '<div style="clear:both"></div>';
-                        s += '</div>';
-                        return s;
-                    }
-                }
-            ]],
-            onClickRow: function(index, row){
-                var ed = $(this).propertygrid('getEditor', {index:index,field:'value'});
-                if (ed){
-                    $(ed.target).unbind('.pg').bind('keydown.pg', function(e){
-                        if (e.keyCode == 13){	// enter
-                            $(document).triggerHandler('mousedown');
-                        }
-
-                    });
-
-                    $(this).triggerHandler('dblclick');
-
-
-                }
-            },
-            onLoadSuccess: function(){
-                //  alert("SUCCESS");
-                //previewTheme();
-            },
-            onAfterEdit: function(index, row){
-                console.log(index);
-                console.log(row);
-            },
-            onBeforeEdit: function(index, row){
-                $(this).select();
-            }
-        });
-
-    });
-    function onChange(theme){
-        //$('#pg-setting').propertygrid('load', {theme: theme});
-    }
-
-
-
     procurement_plan.initForms();
 </script>
-<style type="text/css">
-    .ic-table td{
-        text-align:right;
-    }
-    .ic-table input{
-        width:60px;
-    }
-    .ta-box{
-        width:100%;
-        height:100%;
-        border:0;
-        resize:none;
-        -webkit-box-sizing:border-box;
-        -moz-box-sizing:border-box;
-        -ms-box-sizing:border-box;
-        -o-box-sizing:border-box;
-        box-sizing:border-box;
-    }
-</style>
-

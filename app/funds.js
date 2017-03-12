@@ -78,11 +78,11 @@ var funds = {
                 pagination:true,
                 pageSize:10,
                 rownumbers:true,
-                fitColumns:"true",
+                fitColumns:true,
                 singleSelect:"true",
                 columns:[
                     [
-                        {field:'value',title:'Fund Name'},
+                        {field:'value',title:'Fund Name',width:'100%'},
                     ]
                 ]
             }).datagrid('clientPaging');

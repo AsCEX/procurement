@@ -34,7 +34,7 @@ var request_items = {
                     ],
                     pagination:"true",
                     pageSize:10,
-                    rownumbers:"true",
+                    rownumbers:false,
                     fitColumns:false,
                     nowrap: false,
                     fit: true,
@@ -59,9 +59,18 @@ var request_items = {
                             {field:'item_cost',title:'Item Cost',width:'13%',align:'right',editor:{
                                 type: 'numberbox',options:{
                                     precision: 2,
+                                },
+                                formatter: function(value, row, index){
+                                    return accounting.formatMoney(row.item_cost, "");
                                 }
                             }},
-                            {field:'tot_cost',title:'Cost',width:'13%',align:'right'}
+                            {field:'tot_cost',title:'Cost',width:'13%',align:'right',
+                                formatter: function(value, row, index){
+                                    if(value){
+                                        return accounting.formatMoney(row.tot_cost, "");
+                                    }
+                                }
+                            }
                             /*{field:'action',title:'Action',width:'12%',align:'center',formatter: function(value,row,index){
 
                                 if (row.editing){
@@ -109,6 +118,24 @@ var request_items = {
                     onCancelEdit:function(index,row){
                         row.editing = false;
                         $(this).datagrid('refreshRow', index);
+                    },
+                    onRowContextMenu: function(e,index,row){
+                        e.preventDefault();
+                        if(index > -1){
+                            console.log(row);
+                            $("#pr-dg-menu").data('pri', row.pri_id)
+                            $('#pr_items').datagrid('selectRow', index);
+                            $(e.target).parents('tr').addClass('datagrid-context-menu');
+                            $('#pr-dg-menu').menu('show', {
+                                left: e.pageX,
+                                top: e.pageY
+                            }).menu({
+                                onHide: function(){
+                                    $(e.target).parents('tr').removeClass('datagrid-context-menu');
+                                }
+                            });
+
+                        }
                     }
                 }).datagrid('clientPaging');
             });
@@ -185,22 +212,30 @@ var request_items = {
                 queryParams: {
                     items: JSON.stringify(params)
                 },
-                pagination:"true",
+                pagination:true,
                 pageSize:10,
-                rownumbers:"true",
-                fitColumns:"true",
-                fit: "true",
+                rownumbers:true,
+                fitColumns:false,
+                fit: true,
                 singleSelect:false,
                 nowrap: false,
                 columns:[
                     [
-                        {field:'ppmp_code',title:'Code',width:'8%'},
-                        {field:'cat_description',title:'Category',width:'20%'},
-                        {field:'description',title:'Description',width:'20%'},
+                        /*{field:'ppmp_code',title:'Code',width:'8%'},
+                        {field:'cat_description',title:'Category',width:'20%'},*/
                         {field:'qty',title:'Qty',width:'10%',align:'right'},
                         {field:'unit_name',title:'Unit',width:'10%'},
-                        {field:'item_cost',title:'Item Cost',width:'15%'},
-                        {field:'tot_cost',title:'Cost',width:'15%',align:'right'},
+                        {field:'description',title:'Description',width:'45%'},
+                        {field:'item_cost',title:'Item Cost',width:'15%',align:'right',
+                            formatter: function(value, row, index){
+                                return accounting.formatMoney(row.item_cost, "");
+                            }
+                        },
+                        {field:'tot_cost',title:'Total Cost',width:'15%',align:'right',
+                            formatter: function(value, row, index){
+                                return accounting.formatMoney(row.tot_cost, "");
+                            }
+                        },
                     ]
                 ],
             }).datagrid('clientPaging');

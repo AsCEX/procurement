@@ -16,6 +16,8 @@ var pim_login = {
                 }
             }
         });
+
+        return false;
     },
 
     check: function(){
