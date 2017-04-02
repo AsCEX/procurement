@@ -14,7 +14,7 @@ var routes = {
     },
 
     underconstruction: function(){
-        $.messager.alert('Under Construction', 'This module is under construction', 'info');
+        $.messager.alert('Permission Denied', 'You\'re not allowed in this module. Please Contact Administrator', 'warning');
     },
 
     // Employees

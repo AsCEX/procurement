@@ -29,7 +29,7 @@
 <div region="south" split="false" style="height:30px;line-height:20px;">
     <div class="easyui-layout" fit="true">
         <div region="west" split="false" width="20%" style="padding:0 5px;"><?php echo $this->session->userdata('u_firstname') . " " . $this->session->userdata('u_lastname'); ?></div>
-        <div region="center" split="false" style="padding:0 5px;">asdf</div>
+        <div region="center" split="false" style="padding:0 5px;"></div>
         <div region="east" split="false" width="20%" style="padding:0 5px;"><span id="system-clock" style="float:right;"></span></div>
     </div>
 </div>
